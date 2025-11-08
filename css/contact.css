@@ -1,0 +1,27 @@
+/* ==============================
+   Contact Organizer (#contactPage)
+   ============================== */
+#contactPage .contact-sec{max-width:900px; margin:10px auto 28px; padding:0 12px;}
+#contactPage .contact-head h2{margin:.2rem 0 .4rem}
+
+#contactPage .contact-cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:10px 0 14px; }
+@media (max-width:700px){ #contactPage .contact-cards{grid-template-columns:1fr;} }
+
+#contactPage .c-card{
+  display:flex; gap:10px; align-items:center; text-decoration:none; color:var(--txt);
+  padding:12px; border-radius:14px; background:var(--card); border:1px solid var(--line);
+}
+#contactPage .c-card:hover{border-color: var(--primary);}
+#contactPage .c-ico{width:40px; height:40px; border-radius:10px; display:grid; place-items:center;
+  background: rgba(255,255,255,.06); border:1px solid var(--line);}
+#contactPage .c-txt .k{font-size:.85rem; color:var(--muted)}
+#contactPage .c-txt .v{font-weight:700; letter-spacing:.2px; margin-top:2px; word-break:break-word}
+
+/* 表單 */
+#contactPage .c-form{display:grid; gap:12px;}
+#contactPage .c-form .row.two{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+@media (max-width:700px){ #contactPage .c-form .row.two{grid-template-columns:1fr;} }
+#contactPage .c-form .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;}
+#contactPage .cf-status{margin-top:6px; color:var(--muted)}
+#contactPage .cf-status.ok{color: var(--accent)}
+#contactPage .cf-status.fail{color: var(--danger)}
