@@ -1,0 +1,46 @@
+/* ==============================
+   ExpoLink — Home 專屬樣式
+   命名空間：body.home
+   ============================== */
+
+/* 版頭 Hero 簡潔 */
+body.home .hero{ min-height:52vh; }
+body.home .hero-content{ padding:18px 14px; }
+body.home .gradient-text{ font-size:clamp(22px,6.4vw,36px); }
+body.home .hero-content .muted{ font-size:.95rem; opacity:.9; }
+body.home .btn{ padding:10px 14px; }
+
+/* 導流 chips：上黏、輕薄 */
+body.home .quick-actions{
+  position:sticky; top:56px; z-index:20;
+  padding:8px 10px;
+  background:linear-gradient(180deg, rgba(11,15,26,.85), rgba(11,15,26,0));
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+body.home .chips a{ padding:8px 12px; }
+
+/* Info 區：橫向滑動卡片，縮短高度 */
+body.home #expoInfo{
+  display:flex; gap:10px; overflow-x:auto; overflow-y:hidden;
+  padding:10px 12px; max-width:100%;
+  scroll-snap-type:x mandatory;
+}
+body.home #expoInfo .card{
+  min-width:220px; padding:12px 14px; scroll-snap-align:start;
+}
+
+/* Powered by：更薄 */
+body.home .powered{ margin:12px auto; padding:10px 12px; }
+body.home .powered-row{ gap:8px; }
+
+/* Footer 瘦身 */
+body.home .footer{ padding:16px 12px; }
+
+/* 視覺：背景網格弱化 */
+body.home .hero-bg .grid{ filter:blur(.6px) opacity(.25); }
+
+/* RWD 微調 */
+@media (max-width:560px){
+  body.home #expoInfo .card{ min-width:200px; }
+}
