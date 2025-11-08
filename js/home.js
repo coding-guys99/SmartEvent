@@ -3,7 +3,6 @@
 (function () {
   function init(HOME) {
     if (!HOME || !window.Utils) return;
-
     const { getCountdown, toAbsUrl } = Utils;
 
     // --- Hero ---
@@ -15,7 +14,6 @@
       heroImg.alt = heroData.alt || 'Hero';
       heroImg.style.display = src ? '' : 'none';
     }
-
     setText('heroTitle', heroData.title || '');
     setText('heroSubtitle', heroData.subtitle || '');
 
@@ -25,10 +23,10 @@
       (Array.isArray(heroData.cta) ? heroData.cta : []).forEach(c => {
         const a = document.createElement('a');
         const isHash = (c.link || '').startsWith('#');
-        a.href = c.link || '#';
         a.textContent = c.text || '';
         a.className = c.primary ? 'btn btn-primary' : 'btn btn-outline';
-        if (!isHash) { a.target = '_blank'; a.rel = 'noopener'; a.href = toAbsUrl(c.link || '#'); }
+        a.href = isHash ? (c.link || '#') : toAbsUrl(c.link || '#');
+        if (!isHash) { a.target = '_blank'; a.rel = 'noopener'; }
         heroCtas.appendChild(a);
       });
     }
@@ -53,7 +51,12 @@
     setText('infoDate', dateStr);
     setText('infoVenue', info.venue || '');
     setText('infoOrganizer', info.organizer || '');
-    setText('infoCountdown', getCountdown(dateStr));
+    setText('infoCountdown', getCountdown(dateStr)); // 文字備援
+
+    // 啟動動態倒數（若有載入 countdown.js 且有 #cdWidget）
+    if (window.Countdown && document.getElementById('cdWidget')) {
+      Countdown.mount('cdWidget', dateStr);
+    }
 
     // --- Powered ---
     const powered = HOME.powered || {};
@@ -65,11 +68,6 @@
       poweredCta.target = '_blank';
       poweredCta.rel = 'noopener';
     }
-    // home.js 內的 init(HOME) 最後面加：
-const dateStr = HOME?.info?.date || '';
-if (window.Countdown) {
-  Countdown.mount('cdWidget', dateStr);
-}
   }
 
   function setText(id, val) {
