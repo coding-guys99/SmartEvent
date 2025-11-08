@@ -65,6 +65,11 @@
       poweredCta.target = '_blank';
       poweredCta.rel = 'noopener';
     }
+    // home.js 內的 init(HOME) 最後面加：
+const dateStr = HOME?.info?.date || '';
+if (window.Countdown) {
+  Countdown.mount('cdWidget', dateStr);
+}
   }
 
   function setText(id, val) {
