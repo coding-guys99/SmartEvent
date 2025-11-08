@@ -1,4 +1,4 @@
-// 交通資訊
+// js/transport.js
 (function () {
   function init(data){
     const tp = data?.transport || {};
@@ -34,7 +34,18 @@
 
     let state = { mode: 'all' };
     chipsBox.innerHTML = '';
-    const addChip = (key, label, active=false)=>{
+    addChip('all', nice.all, true);
+    modeKeys.forEach(k => addChip(k, nice[k] || k));
+
+    const tipsBox = document.getElementById('tpTips');
+    if (Array.isArray(tp.tips) && tipsBox){
+      tipsBox.innerHTML = `<div class="tp-block"><h3>小提醒</h3>${tp.tips.length ? `<ul>${tp.tips.map(t=>`<li>${t}</li>`).join('')}</ul>`:''}</div>`;
+    }
+
+    render();
+
+    // ==== helpers（用 function 宣告，避免 hoist 問題） ====
+    function addChip(key, label, active=false){
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'chip' + (active ? ' active' : '');
@@ -45,16 +56,7 @@
         b.classList.add('active'); state.mode = key; render();
       });
       chipsBox.appendChild(b);
-    };
-    addChip('all', nice.all, true);
-    modeKeys.forEach(k => addChip(k, nice[k] || k));
-
-    const tipsBox = document.getElementById('tpTips');
-    if (Array.isArray(tp.tips) && tipsBox){
-      tipsBox.innerHTML = `<div class="tp-block"><h3>小提醒</h3>${tp.tips.length ? `<ul>${tp.tips.map(t=>`<li>${t}</li>`).join('')}</ul>`:''}</div>`;
     }
-
-    render();
 
     function render(){
       const el = document.getElementById('tpContent');
@@ -76,12 +78,12 @@
       });
     }
 
-    const block = (title, innerHtml)=>{
+    function block(title, innerHtml){
       const d = document.createElement('section');
       d.className = 'tp-block';
       d.innerHTML = `<h3>${title}</h3>${innerHtml}`;
       return d;
-    };
+    }
 
     function viewMetro(m){
       const lines = (m.lines||[]).map(l=>{
@@ -91,6 +93,7 @@
       const txt = m.note ? `<div class="tp-meta" style="margin-top:6px">${m.note}</div>` : '';
       return block('捷運 / 地鐵', `<div class="tp-list">${lines}</div>${txt}`);
     }
+
     function viewBus(b){
       const routes = (b.routes||[]).map(r=>{
         const meta = [r.stop?`站名：${r.stop}`:'', r.freq?`班距：${r.freq}`:''].filter(Boolean).join(' · ');
@@ -99,10 +102,12 @@
       const txt = b.note ? `<div class="tp-meta" style="margin-top:6px">${b.note}</div>` : '';
       return block('公車', `<div class="tp-list">${routes}</div>${txt}`);
     }
+
     function viewDrive(d){
       const tips = (d.routes||[]).map(t=>`<div class="tp-item"><div class="dot"></div><div class="body">${t}</div></div>`).join('');
       return block('自行開車', `<div class="tp-list">${tips}</div>`);
     }
+
     function viewParking(p){
       const rows = (p.lots||[]).map(l=>`
         <tr><td>${l.name||''}</td><td>${l.type||''}</td><td>${l.fee||''}</td><td>${l.spaces||''}</td><td>${l.open||''}</td></tr>
@@ -117,6 +122,7 @@
       const txt = p.note ? `<div class="tp-meta" style="margin-top:6px">${p.note}</div>` : '';
       return block('停車', table + txt);
     }
+
     function viewShuttle(s){
       const rows = (s.times||[]).map(t=>`
         <tr><td>${t.from||''}</td><td>${t.to||''}</td><td>${t.interval||''}</td><td>${t.first||''} – ${t.last||''}</td></tr>
@@ -131,10 +137,12 @@
       const txt = s.note ? `<div class="tp-meta" style="margin-top:6px">${s.note}</div>` : '';
       return block('接駁車', table + extra + txt);
     }
+
     function viewTaxi(t){
       const list = (t.hints||[]).map(x=>`<div class="tp-item"><div class="dot"></div><div class="body">${x}</div></div>`).join('');
       return block('計程車 / 叫車', `<div class="tp-list">${list}</div>`);
     }
+
     function viewBike(b){
       const list = (b.spots||[]).map(x=>{
         const meta = [x.distance?`距離：${x.distance}`:'', x.spaces?`車位：${x.spaces}`:''].filter(Boolean).join(' · ');
@@ -143,6 +151,7 @@
       const txt = b.note ? `<div class="tp-meta" style="margin-top:6px">${b.note}</div>` : '';
       return block('自行車 / YouBike', `<div class="tp-list">${list}</div>${txt}`);
     }
+
     function viewGeneric(title, g){
       if (Array.isArray(g)){
         const list = g.map(x=>`<div class="tp-item"><div class="dot"></div><div class="body">${x}</div></div>`).join('');
@@ -151,5 +160,6 @@
       return block(title, `<div class="tp-meta">${g?.note || ''}</div>`);
     }
   }
+
   window.Transport = { init };
 })();
