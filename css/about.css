@@ -1,0 +1,27 @@
+/* ==============================
+   About (#aboutPage)
+   ============================== */
+#aboutPage .about-hero{
+  text-align:center; padding:50px 12px 40px;
+  background: radial-gradient(100% 80% at 50% 0%, rgba(0,255,224,.08), transparent 70%);
+}
+#aboutPage .about-sec, #aboutPage .about-features, #aboutPage .about-usage, #aboutPage .about-plans, #aboutPage .about-cta{
+  max-width:960px; margin:0 auto 40px; padding:0 12px; text-align:center; display:grid; gap:12px;
+}
+#aboutPage h2{ margin:.2rem 0 .4rem; }
+#aboutPage .about-grid{
+  display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:14px;
+}
+#aboutPage .a-card{
+  border:1px solid var(--line); border-radius:14px; padding:16px 14px;
+  background:rgba(255,255,255,.03); display:grid; gap:6px;
+}
+#aboutPage .a-card span{font-size:1.4rem;}
+#aboutPage .a-card h3{margin:.3rem 0 .3rem;}
+#aboutPage .plans-grid{ display:grid; gap:14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+#aboutPage .plan-card{
+  padding:16px; border-radius:14px; border:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));
+}
+#aboutPage .about-cta .btn-group{justify-content:center; gap:10px;}
+#aboutPage .footer.small{font-size:.88rem; opacity:.8;}
