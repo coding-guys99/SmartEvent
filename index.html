@@ -93,10 +93,31 @@
       <div class="k">主辦</div>
       <div class="v" id="infoOrganizer">—</div>
     </div>
-    <div class="card accent">
-      <div class="k">倒數</div>
-      <div class="v" id="infoCountdown">—</div>
+    <!-- 展會資訊卡：倒數 -->
+<div class="card accent" id="cdCard">
+  <div class="k">倒數</div>
+  <div class="v" id="infoCountdown">—</div>
+
+  <!-- 動態倒數小卡（有 JS 才會顯示） -->
+  <div id="cdWidget" class="cd" aria-live="polite" aria-label="展會倒數" hidden>
+    <div class="cd-item">
+      <div class="cd-num" data-unit="days">00</div>
+      <div class="cd-k">天</div>
     </div>
+    <div class="cd-item">
+      <div class="cd-num" data-unit="hours">00</div>
+      <div class="cd-k">時</div>
+    </div>
+    <div class="cd-item">
+      <div class="cd-num" data-unit="mins">00</div>
+      <div class="cd-k">分</div>
+    </div>
+    <div class="cd-item">
+      <div class="cd-num" data-unit="secs">00</div>
+      <div class="cd-k">秒</div>
+    </div>
+  </div>
+</div>
   </section>
 
   <!-- 你的曝光（Powered by） -->
