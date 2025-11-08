@@ -1,46 +1,98 @@
 /* ==============================
-   ExpoLink — Home 專屬樣式
+   Home
    命名空間：body.home
    ============================== */
-
-/* 版頭 Hero 簡潔 */
-body.home .hero{ min-height:52vh; }
-body.home .hero-content{ padding:18px 14px; }
-body.home .gradient-text{ font-size:clamp(22px,6.4vw,36px); }
-body.home .hero-content .muted{ font-size:.95rem; opacity:.9; }
-body.home .btn{ padding:10px 14px; }
-
-/* 導流 chips：上黏、輕薄 */
-body.home .quick-actions{
-  position:sticky; top:56px; z-index:20;
-  padding:8px 10px;
-  background:linear-gradient(180deg, rgba(11,15,26,.85), rgba(11,15,26,0));
-  backdrop-filter:blur(8px);
-  border-bottom:1px solid var(--line);
+body.home .hero{position:relative; min-height:68vh; display:grid; place-items:center; overflow:hidden;}
+body.home .hero-bg{position:absolute; inset:0;}
+body.home .hero-bg .grid{
+  position:absolute; inset:-30% -10% -10% -10%;
+  background:
+    linear-gradient(transparent 95%, rgba(123,97,255,.25) 96%),
+    linear-gradient(90deg, transparent 95%, rgba(0,255,224,.25) 96%);
+  background-size:40px 40px; filter:blur(.6px) opacity(.4);
 }
-body.home .chips a{ padding:8px 12px; }
-
-/* Info 區：橫向滑動卡片，縮短高度 */
-body.home #expoInfo{
-  display:flex; gap:10px; overflow-x:auto; overflow-y:hidden;
-  padding:10px 12px; max-width:100%;
-  scroll-snap-type:x mandatory;
+body.home .hero-bg .aurora{
+  position:absolute; width:120vmax; height:120vmax; left:-30vmax; top:-40vmax;
+  background: radial-gradient(closest-side at 35% 40%, rgba(0, 255, 224,.18), transparent 65%),
+              radial-gradient(closest-side at 60% 60%, rgba(123, 97, 255,.22), transparent 60%);
+  transform: rotate(12deg);
 }
-body.home #expoInfo .card{
-  min-width:220px; padding:12px 14px; scroll-snap-align:start;
+body.home .hero-bg img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.35; mix-blend-mode:screen;}
+body.home .hero-shade{position:absolute; inset:0; background:linear-gradient(180deg, rgba(11,15,26,0) 0, #0b0f1a 80%);}
+body.home .hero-content{position:relative; z-index:2; padding:22px 18px; width:min(980px,92%); text-align:center;}
+body.home .gradient-text{
+  font-size: clamp(26px, 4vw, 44px); margin:.2rem 0 .4rem;
+  background: linear-gradient(90deg, var(--primary), var(--primary-2));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
 }
+body.home .muted{color:var(--muted)}
+body.home .btn-group{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:14px;}
+body.home .btn-primary{color:#08101d;}
 
-/* Powered by：更薄 */
-body.home .powered{ margin:12px auto; padding:10px 12px; }
-body.home .powered-row{ gap:8px; }
+body.home .quick-actions{padding:16px 12px;}
+body.home .chips{display:flex; gap:10px; flex-wrap:wrap; justify-content:center;}
+body.home .chips a{
+  padding:10px 14px; border-radius:999px; text-decoration:none; color:var(--txt);
+  background:rgba(255,255,255,.04); border:1px solid var(--line);
+}
+body.home .chips a:hover{border-color: var(--primary);}
 
-/* Footer 瘦身 */
-body.home .footer{ padding:16px 12px; }
+body.home .info-cards{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:12px; padding:14px; max-width:1000px; margin:0 auto;
+}
+body.home .info-cards .card{ padding:14px 16px; border-radius:14px; background:var(--card); border:1px solid var(--line); }
+body.home .info-cards .card.accent{border-color: rgba(0,255,224,.45); box-shadow: 0 0 0 1px rgba(0,255,224,.28) inset;}
+body.home .k{font-size:.82rem; color:var(--muted)}
+body.home .v{font-size:1.05rem; margin-top:6px}
 
-/* 視覺：背景網格弱化 */
-body.home .hero-bg .grid{ filter:blur(.6px) opacity(.25); }
+body.home .powered{max-width:1000px; margin:18px auto; padding:14px 16px;}
+body.home .powered-row{display:flex; align-items:center; justify-content:space-between; gap:12px;}
 
-/* RWD 微調 */
+body.home .fab{
+  position:fixed; right:16px; bottom: calc(16px + env(safe-area-inset-bottom));
+  width:60px; height:60px; border-radius:22px; border:none; cursor:pointer; z-index:32;
+  color:#08101d; background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  box-shadow: 0 16px 40px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.08) inset;
+  display:grid; place-items:center;
+}
+body.home .scanner{
+  position:fixed; inset:0; background: rgba(1,5,12,.6); backdrop-filter: blur(6px);
+  opacity:0; pointer-events:none; transition:.24s ease; z-index:50;
+}
+body.home .scanner.show{opacity:1; pointer-events:auto;}
+body.home .scanner-wrap{
+  position:absolute; left:50%; bottom:0; transform: translateX(-50%);
+  width:100%; max-width:680px; padding:12px 12px calc(12px + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(17,24,42,.75), rgba(11,15,26,.95)); border-radius:18px 18px 0 0; border:1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+body.home .scanner-top{display:flex; align-items:center; justify-content:space-between; padding:6px 2px 10px}
+body.home .cam{
+  position:relative; height:320px; display:grid; place-items:center; margin:8px 0 10px;
+  background: radial-gradient(1200px 320px at 50% -10%, rgba(0,255,224,.18), transparent 65%), rgba(255,255,255,.03);
+  border:1px solid var(--line); border-radius:16px;
+}
+body.home .frame{position:relative; width:min(86%,420px); height:68%; border-radius:12px; border:1px dashed rgba(255,255,255,.35);}
+body.home .corner{position:absolute; width:22px; height:22px; border:3px solid var(--primary); }
+body.home .corner.tl{left:-3px; top:-3px; border-right:none; border-bottom:none;}
+body.home .corner.tr{right:-3px; top:-3px; border-left:none; border-bottom:none;}
+body.home .corner.bl{left:-3px; bottom:-3px; border-right:none; border-top:none;}
+body.home .corner.br{right:-3px; bottom:-3px; border-left:none; border-top:none;}
+body.home .laser{
+  position:absolute; left:6%; right:6%; height:2px; top:14%;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation: scan 2.2s linear infinite; box-shadow: 0 0 14px var(--accent);
+}
+@keyframes scan{ 0%{ top:14% } 50%{ top:78% } 100%{ top:14% } }
+@media (prefers-reduced-motion: reduce){ body.home .laser{ animation:none; } }
+body.home .hint{position:absolute; bottom:10px; font-size:.9rem; color:var(--muted)}
+body.home .scan-ctr{display:flex; gap:10px; align-items:center; justify-content:center; margin:8px 0 2px;}
+body.home .scan-result{margin-top:8px; min-height:28px; text-align:center; color:var(--accent)}
+
+@media (max-width:900px){
+  body.home .info-cards{grid-template-columns:repeat(2,1fr);}
+  body.home .powered-row{flex-direction:column; align-items:stretch;}
+}
 @media (max-width:560px){
-  body.home #expoInfo .card{ min-width:200px; }
+  body.home .info-cards{grid-template-columns:1fr;}
 }
