@@ -1,0 +1,45 @@
+/* ==============================
+   Role Select (#rolePage)
+   ============================== */
+#rolePage{ padding:20px 12px 28px; }
+#rolePage .role-sec{ max-width:1000px; margin:0 auto; display:grid; gap:16px; }
+#rolePage .role-hero{ text-align:center; padding:28px 14px; }
+
+#rolePage .role-grid{
+  display:grid; gap:12px; grid-template-columns: repeat(2, 1fr);
+}
+@media (max-width:720px){
+  #rolePage .role-grid{ grid-template-columns:1fr; }
+}
+
+#rolePage .role-card{
+  appearance:none; background:transparent; color:inherit;
+  cursor:pointer; text-align:left; padding:16px; border-radius:16px;
+  border:1px solid var(--line); position:relative;
+  transition: transform .16s ease, border-color .16s ease;
+}
+#rolePage .role-card:hover{ transform: translateY(-2px); border-color: rgba(0,255,224,.45); }
+#rolePage .role-card:disabled{ opacity:.6; cursor:not-allowed; }
+
+#rolePage .rc-ico{
+  width:56px; height:56px; border-radius:14px; display:grid; place-items:center;
+  background: rgba(255,255,255,.06); border:1px solid var(--line); margin-bottom:8px;
+}
+#rolePage .role-card h3{ margin:.2rem 0 .3rem; }
+#rolePage .role-card p{ margin:0 0 10px; }
+#rolePage .rc-cta{
+  display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border-radius:999px;
+  border:1px solid var(--line); background:rgba(255,255,255,.04); font-weight:700;
+}
+#rolePage .role-card:hover .rc-cta{
+  border-color: transparent;
+  background: linear-gradient(90deg, var(--primary-2), var(--primary));
+  color:#08101d; box-shadow: 0 6px 18px rgba(0,255,224,.18);
+}
+
+#rolePage .role-extra{ text-align:center; margin-top:2px; }
+#rolePage .role-foot{ text-align:center; opacity:.8; margin-top:6px; }
+
+/* 字元圖示（已在 styles.css 內有 i-visitor / i-exhibitor 的話可略過） */
+.i-visitor::before{ content:"🧭"; }
+.i-exhibitor::before{ content:"🏬"; }
