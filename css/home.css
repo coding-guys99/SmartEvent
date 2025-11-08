@@ -235,3 +235,57 @@
   .cd{ gap:6px; }
   .cd-num{ padding:8px 6px; }
 }
+
+/* ====== Home layout compression (for mobile) ====== */
+.hero {
+  padding-top: 4vh;
+  padding-bottom: 2vh;
+}
+
+.hero-content.glass {
+  padding: 18px 20px;
+}
+
+.quick-actions {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.info-cards {
+  margin-top: 4px;
+  gap: 10px;
+}
+
+.info-cards .card {
+  padding: 12px 14px;
+  border-radius: 14px;
+}
+
+/* 倒數卡更緊湊 */
+#cdCard {
+  margin-top: 2px;
+}
+.cd {
+  margin-top: 4px;
+  gap: 6px;
+}
+
+/* Powered section 接近底部但不留太多空白 */
+.powered {
+  margin-top: 12px;
+  padding: 10px 16px;
+}
+
+/* 整體控制高度感，手機優化 */
+@media (max-height: 750px) {
+  .hero {
+    padding-top: 2vh;
+    padding-bottom: 1vh;
+  }
+  .info-cards {
+    gap: 8px;
+  }
+  .powered {
+    margin-top: 8px;
+  }
+}
