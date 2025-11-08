@@ -8,15 +8,17 @@
     window.HOME = {};
   }
 
-  // 首頁與各模組初始化（需要資料的傳 HOME）
+  // 首頁與各模組初始化
   Home.init(HOME);
   Ecard.init(HOME);
   Brands.init(HOME);
   Contact.init(HOME);
   Transport.init(HOME);
 
-  // 輕量帳戶 UI（若你用另一支 account.js，這行拿掉）
-  if (window.AccountUI) AccountUI.init();
+  // ← 你是 account.js，所以要找 Account
+  if (window.Account && typeof Account.init === 'function') {
+    Account.init();
+  }
 
   // Drawer / Scanner 綁定 & 首次路由
   PageRouter.bindUI();
