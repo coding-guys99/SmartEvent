@@ -774,20 +774,16 @@
 
   <div class="safe-bottom"></div>
 
-  <script src="js/role.js"></script>
-<script src="js/utils.js"></script>
-<script src="js/scanner.js"></script>
+  <!-- JS：先 role（守門），再各模組，最後總開關 app.js -->
+<script src="js/role.js" defer></script>
 
-<script src="js/home.js"></script>
-<script src="js/ecard.js"></script>
-<script src="js/brands.js"></script>
-<script src="js/contact.js"></script>
-<script src="js/transport.js"></script>
-
-<!-- 若要用你之前那份完整的 account.js，就改載它而不要載 account.ui.js -->
-<script src="js/account.js"></script>
-
-<script src="js/router.js"></script>
-<script src="js/app.js"></script>
+<script src="js/home.js" defer></script>
+<script src="js/ecard.js" defer></script>
+<script src="js/brands.js" defer></script>
+<script src="js/contact.js" defer></script>
+<script src="js/transport.js" defer></script>
+<script src="js/account.js" defer></script>  <!-- 這支輸出 window.Account -->
+<script src="js/router.js" defer></script>   <!-- PageRouter（drawer、hash） -->
+<script src="js/app.js" defer></script>      <!-- 啟動用，見下 -->
 </body>
 </html>
