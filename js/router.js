@@ -25,10 +25,10 @@
 
   function route(){
     // role 守門：若未選擇身分，跳 role（並隱藏其他區塊與 scanner）
-    if (window.Role && Role.get() === '' && location.hash !== '#role') {
-      location.hash = '#role';
-      return;
-    }
+    if (typeof Role !== 'undefined' && Role.get() === '' && location.hash !== 'role') {
+  location.hash = '#role';
+  return;
+}
 
     const hashRaw = (location.hash || '').replace(/^#/, '');
     const hash = hashRaw || '';
