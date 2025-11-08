@@ -774,7 +774,8 @@
 
   <div class="safe-bottom"></div>
 
-  <!-- JS：先 role（守門），再各模組，最後總開關 app.js -->
+<!-- JS：先工具、守門，再各模組、最後啟動器 -->
+<script src="js/utils.js" defer></script>
 <script src="js/role.js" defer></script>
 
 <script src="js/home.js" defer></script>
@@ -782,8 +783,8 @@
 <script src="js/brands.js" defer></script>
 <script src="js/contact.js" defer></script>
 <script src="js/transport.js" defer></script>
-<script src="js/account.js" defer></script>  <!-- 這支輸出 window.Account -->
-<script src="js/router.js" defer></script>   <!-- PageRouter（drawer、hash） -->
-<script src="js/app.js" defer></script>      <!-- 啟動用，見下 -->
+<script src="js/account.js" defer></script>
+<script src="js/router.js" defer></script>
+<script src="js/app.js" defer></script> <!-- 啟動用，見下 -->
 </body>
 </html>
