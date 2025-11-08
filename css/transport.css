@@ -1,0 +1,46 @@
+/* ==============================
+   Transport (#transportPage)
+   ============================== */
+#transportPage .tp-sec{max-width:1000px; margin:10px auto 28px; padding:0 12px;}
+#transportPage .tp-head h2{margin:.2rem 0 .3rem}
+
+#transportPage .tp-venue{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:12px; border-radius:14px; border:1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+}
+#transportPage .tp-venue-name{font-weight:800; letter-spacing:.2px}
+#transportPage .tp-venue-addr{color:var(--muted); margin-top:2px; font-size:.95rem}
+#transportPage .tp-venue-actions .btn{white-space:nowrap}
+
+#transportPage .tp-map{position:relative; margin:12px 0 10px; border-radius:14px; overflow:hidden; border:1px solid var(--line);}
+#transportPage .tp-map iframe, #transportPage .tp-map img{display:none; width:100%; aspect-ratio: 16/9; border:0; object-fit:cover;}
+
+#transportPage .tp-chips{ display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 12px; }
+#transportPage .tp-chips .chip{
+  border:1px solid var(--line); background:rgba(255,255,255,.04);
+  color:var(--txt); padding:8px 12px; border-radius:999px; cursor:pointer; font-size:.92rem;
+}
+#transportPage .tp-chips .chip.active{
+  color:#08101d; border-color:transparent;
+  background:linear-gradient(90deg, var(--primary-2), var(--primary));
+  box-shadow:0 6px 18px rgba(0,255,224,.18);
+}
+
+#transportPage .tp-content{display:grid; gap:12px;}
+#transportPage .tp-block{ padding:12px; border-radius:14px; background:var(--card); border:1px solid var(--line); }
+#transportPage .tp-block h3{margin:.1rem 0 .4rem; font-size:1.05rem; letter-spacing:.2px}
+#transportPage .tp-list{display:grid; gap:10px;}
+#transportPage .tp-item{display:flex; gap:10px; align-items:flex-start;}
+#transportPage .tp-item .dot{width:10px;height:10px;border-radius:50%;margin-top:.5em; background:var(--primary)}
+#transportPage .tp-item .body{flex:1;min-width:0}
+#transportPage .tp-meta{font-size:.9rem; color:var(--muted); margin-top:2px}
+
+#transportPage .tp-table{width:100%; border-collapse:collapse; overflow:hidden; border-radius:10px; border:1px solid var(--line);}
+#transportPage .tp-table th, #transportPage .tp-table td{padding:10px; border-bottom:1px solid var(--line); text-align:left; font-size:.95rem}
+#transportPage .tp-table th{background:rgba(255,255,255,.04); color:var(--muted)}
+#transportPage .tp-table tr:last-child td{border-bottom:none}
+
+#transportPage .tp-tips{margin-top:8px; color:var(--muted); font-size:.95rem}
+#transportPage .tp-tips ul{margin:6px 0 0; padding-left:18px}
+#transportPage .tp-tips li{margin:.2rem 0}
