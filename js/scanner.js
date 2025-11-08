@@ -1,40 +1,54 @@
-// 掃描浮層（UI 模擬）
+// js/scanner.js
+// 浮動掃描 FAB + Overlay（純前端 UI 模擬）
 (function () {
+  let els = {};
+
   function init() {
-    const fab = document.getElementById('scanFab');
-    const sheet = document.getElementById('scanner');
-    const close = document.getElementById('closeScanner');
-    const btnStart = document.getElementById('btnStartScan');
-    const btnMock = document.getElementById('btnMockHit');
-    const btnTorch = document.getElementById('btnTorch');
-    const result = document.getElementById('scanResult');
+    els.fab       = document.getElementById('scanFab');
+    els.sheet     = document.getElementById('scanner');
+    els.btnClose  = document.getElementById('closeScanner');
+    els.btnStart  = document.getElementById('btnStartScan');
+    els.btnMock   = document.getElementById('btnMockHit');
+    els.btnTorch  = document.getElementById('btnTorch');
+    els.result    = document.getElementById('scanResult');
 
-    const open = () => sheet?.classList.add('show');
-    const hide = () => { sheet?.classList.remove('show'); if (result) result.textContent = ''; };
+    // 沒有掃描區塊就直接略過（不報錯）
+    if (!els.sheet) return;
 
-    fab?.addEventListener('click', open);
-    close?.addEventListener('click', hide);
+    els.fab && els.fab.addEventListener('click', open);
+    els.btnClose && els.btnClose.addEventListener('click', hide);
 
-    btnStart?.addEventListener('click', () => {
-      if (!result) return;
-      result.style.color = 'var(--muted)';
-      result.textContent = '正在掃描…（介面模擬，之後可接原生/Barcode）';
+    els.btnStart && els.btnStart.addEventListener('click', () => {
+      if (!els.result) return;
+      els.result.style.color = 'var(--muted)';
+      els.result.textContent = '正在掃描…（介面模擬）';
     });
-    btnMock?.addEventListener('click', () => {
-      if (!result) return;
-      result.style.color = 'var(--accent)';
-      result.textContent = '識別成功：TICKET-EXPO-2025-#A1';
+
+    els.btnMock && els.btnMock.addEventListener('click', () => {
+      if (!els.result) return;
+      els.result.style.color = 'var(--accent)';
+      els.result.textContent = '識別成功：TICKET-EXPO-2025-#A1';
     });
 
     let torch = false;
-    btnTorch?.addEventListener('click', () => {
+    els.btnTorch && els.btnTorch.addEventListener('click', () => {
       torch = !torch;
-      if (btnTorch) {
-        btnTorch.style.borderColor = torch ? 'var(--primary)' : 'var(--line)';
-        btnTorch.title = torch ? '關閉照明' : '開啟照明';
-      }
+      els.btnTorch.style.borderColor = torch ? 'var(--primary)' : 'var(--line)';
+      els.btnTorch.title = torch ? '關閉照明' : '開啟照明';
     });
   }
 
-  window.Scanner = { init };
+  function open() {
+    if (!els.sheet) return;
+    els.sheet.classList.add('show');
+  }
+
+  function hide() {
+    if (!els.sheet) return;
+    els.sheet.classList.remove('show');
+    if (els.result) els.result.textContent = '';
+  }
+
+  // 對外
+  window.Scanner = { init, open, hide };
 })();
