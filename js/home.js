@@ -1,59 +1,77 @@
+// js/home.js
 // 首頁：Hero / Actions / Info / Powered
 (function () {
   function init(HOME) {
-    if (!HOME) return;
+    if (!HOME || !window.Utils) return;
 
-    // Hero
+    const { getCountdown, toAbsUrl } = Utils;
+
+    // --- Hero ---
     const heroImg = document.getElementById('heroImg');
-    if (heroImg) heroImg.src = HOME?.hero?.img || '';
-    const hTitle = document.getElementById('heroTitle');
-    if (hTitle) hTitle.textContent = HOME?.hero?.title || '';
-    const hSub = document.getElementById('heroSubtitle');
-    if (hSub) hSub.textContent = HOME?.hero?.subtitle || '';
+    const heroData = HOME.hero || {};
+    if (heroImg) {
+      const src = heroData.img || '';
+      heroImg.src = src;
+      heroImg.alt = heroData.alt || 'Hero';
+      heroImg.style.display = src ? '' : 'none';
+    }
+
+    setText('heroTitle', heroData.title || '');
+    setText('heroSubtitle', heroData.subtitle || '');
 
     const heroCtas = document.getElementById('heroCtas');
-    if (heroCtas && Array.isArray(HOME?.hero?.cta)) {
+    if (heroCtas) {
       heroCtas.innerHTML = '';
-      HOME.hero.cta.forEach(c => {
+      (Array.isArray(heroData.cta) ? heroData.cta : []).forEach(c => {
         const a = document.createElement('a');
+        const isHash = (c.link || '').startsWith('#');
         a.href = c.link || '#';
         a.textContent = c.text || '';
         a.className = c.primary ? 'btn btn-primary' : 'btn btn-outline';
+        if (!isHash) { a.target = '_blank'; a.rel = 'noopener'; a.href = toAbsUrl(c.link || '#'); }
         heroCtas.appendChild(a);
       });
     }
 
-    // Actions chips
+    // --- Actions chips ---
     const actions = document.getElementById('actions');
-    if (actions && Array.isArray(HOME?.actions)) {
+    if (actions) {
       actions.innerHTML = '';
-      HOME.actions.forEach(c => {
+      (Array.isArray(HOME.actions) ? HOME.actions : []).forEach(c => {
         const a = document.createElement('a');
-        a.href = c.link || '#';
+        const isHash = (c.link || '').startsWith('#');
         a.textContent = c.text || '';
+        a.href = isHash ? (c.link || '#') : toAbsUrl(c.link || '#');
+        if (!isHash) { a.target = '_blank'; a.rel = 'noopener'; }
         actions.appendChild(a);
       });
     }
 
-    // Info
-    const dateStr = HOME?.info?.date || '';
-    const infoDate = document.getElementById('infoDate');
-    if (infoDate) infoDate.textContent = dateStr;
-    const infoVenue = document.getElementById('infoVenue');
-    if (infoVenue) infoVenue.textContent = HOME?.info?.venue || '';
-    const infoOrg = document.getElementById('infoOrganizer');
-    if (infoOrg) infoOrg.textContent = HOME?.info?.organizer || '';
-    const infoCountdown = document.getElementById('infoCountdown');
-    if (infoCountdown) infoCountdown.textContent = Utils.getCountdown(dateStr);
+    // --- Info ---
+    const info = HOME.info || {};
+    const dateStr = info.date || '';
+    setText('infoDate', dateStr);
+    setText('infoVenue', info.venue || '');
+    setText('infoOrganizer', info.organizer || '');
+    setText('infoCountdown', getCountdown(dateStr));
 
-    // Powered
-    const poweredText = document.getElementById('poweredText');
-    if (poweredText) poweredText.textContent = HOME?.powered?.text || '';
+    // --- Powered ---
+    const powered = HOME.powered || {};
+    setText('poweredText', powered.text || '');
     const poweredCta = document.getElementById('poweredCta');
     if (poweredCta) {
-      poweredCta.textContent = HOME?.powered?.cta?.text || '';
-      poweredCta.href = HOME?.powered?.cta?.link || '#';
+      poweredCta.textContent = powered?.cta?.text || '';
+      poweredCta.href = powered?.cta?.link ? toAbsUrl(powered.cta.link) : '#';
+      poweredCta.target = '_blank';
+      poweredCta.rel = 'noopener';
     }
+  }
+
+  function setText(id, val) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const s = String(val ?? '');
+    if (el.textContent !== s) el.textContent = s;
   }
 
   window.Home = { init };
