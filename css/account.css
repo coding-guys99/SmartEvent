@@ -1,0 +1,80 @@
+/* ==============================
+   Account (#accountPage)
+   ============================== */
+#accountPage .acct-sec{max-width:980px;margin:10px auto 28px;padding:0 12px;display:grid;gap:12px}
+#accountPage .acct-hero{display:grid;gap:10px;padding:14px;border:1px solid var(--line);border-radius:14px}
+#accountPage .ah-left{display:flex;gap:12px;align-items:center}
+#accountPage .ah-avatar{width:52px;height:52px;border-radius:50%;border:1px solid var(--line);
+  background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,.03))}
+#accountPage .ah-name{font-weight:800}
+#accountPage .ah-right{margin-left:auto;display:flex;align-items:center}
+#accountPage .ah-progress{display:grid;gap:6px}
+#accountPage .ah-progress .bar{height:8px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;border:1px solid var(--line)}
+#accountPage .ah-progress .bar span{display:block;height:100%; background:linear-gradient(90deg,var(--primary-2),var(--primary))}
+#accountPage .acct-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:900px){#accountPage .acct-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){#accountPage .acct-grid{grid-template-columns:1fr}}
+
+#accountPage .feature-card{position:relative;display:grid;gap:6px;padding:12px;border:1px solid var(--line);border-radius:14px;
+  text-decoration:none;color:var(--txt);transition:transform .12s ease,border-color .12s}
+#accountPage .feature-card:hover{transform:translateY(-1px);border-color:var(--primary)}
+#accountPage .fc-ico{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;
+  background:rgba(255,255,255,.06);border:1px solid var(--line)}
+#accountPage .fc-title{font-weight:800}
+#accountPage .fc-badge{position:absolute;right:10px;top:10px;font-size:.8rem;color:#08101d;padding:2px 8px;border-radius:999px;
+  background:linear-gradient(90deg,var(--primary-2),var(--primary))}
+
+/* 子頁 */
+#accountPage .subpage{max-width:980px;margin:10px auto 80px;padding:0 12px}
+#accountPage .sub-head{position:sticky;top:56px;z-index:5;display:flex;align-items:center;gap:10px;
+  padding:10px;background:rgba(11,15,26,.6);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);border-radius:12px}
+#accountPage .sub-head h3{display:flex;align-items:center;gap:8px;margin:0}
+#accountPage .sub-body{display:grid;gap:12px;margin-top:10px}
+#accountPage .sub-card{padding:12px;border:1px solid var(--line);border-radius:14px}
+#accountPage .sub-card.danger{border-color:rgba(255,92,122,.45)}
+#accountPage .sub-card h4{margin:.2rem 0 .4rem}
+#accountPage .sheet-cta{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;gap:10px;justify-content:center;
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+  background:linear-gradient(180deg,rgba(11,15,26,.2),rgba(11,15,26,.9));border-top:1px solid var(--line);backdrop-filter:blur(8px)}
+#accountPage .sheet-cta .btn{min-width:120px}
+
+/* grid & form */
+#accountPage .row.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:700px){#accountPage .row.two{grid-template-columns:1fr}}
+#accountPage .avatar-row{display:flex;align-items:center;gap:12px}
+#accountPage .avatar-row .avatar{width:72px;height:72px;border-radius:50%;border:1px solid var(--line);
+  background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,.03))}
+#accountPage .avatar-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+#accountPage .vis-list{list-style:none;padding:0;margin:6px 0;display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+#accountPage .vis-list label{display:flex;align-items:center;gap:8px;padding:10px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
+#accountPage .vis-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+
+#accountPage .ecard-mini{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))}
+#accountPage .ecard-mini .name{font-weight:800;letter-spacing:.2px;background:linear-gradient(90deg,var(--primary),var(--primary-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+#accountPage .ecard-mini .meta{color:var(--muted);font-size:.95rem}
+
+/* QR */
+#accountPage .qr-card{display:grid;gap:10px;justify-items:center;text-align:center}
+#accountPage .qr-box{width:min(80vw,320px);aspect-ratio:1/1;border-radius:16px;display:grid;place-items:center;border:1px dashed var(--line);background:rgba(255,255,255,.03)}
+#accountPage .qr-ph{font-size:2rem;color:var(--muted)}
+#accountPage .qr-meta .k{font-size:.9rem;color:var(--muted)}
+#accountPage .qr-meta .timer{font-weight:800;margin-top:2px}
+#accountPage .qr-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+#accountPage .small{font-size:.92rem}
+
+/* 交換名片 */
+#accountPage .ex-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+#accountPage .ex-item{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.03)}
+#accountPage .ex-avatar{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);
+  background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02))}
+#accountPage .ex-name{font-weight:700}
+#accountPage .ex-meta{font-size:.9rem}
+
+/* 綁定列 + 按鈕尺寸 */
+#accountPage .bind-row{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.03);margin-bottom:8px}
+#accountPage .bind-ico{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:rgba(255,255,255,.06);border:1px solid var(--line)}
+#accountPage .bind-title{font-weight:700}
+#accountPage .btn.btn-sm{padding:8px 10px;border-radius:10px;font-size:.92rem}
+#accountPage .btn.btn-danger{border:1px solid var(--danger);color:var(--txt);background:rgba(255,0,0,.06)}
+#accountPage .danger-line{display:flex;gap:8px;flex-wrap:wrap}
