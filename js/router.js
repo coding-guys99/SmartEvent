@@ -1,45 +1,59 @@
-// 單頁路由（含 role 頁守門、About 分支）
+// js/router.js
+// 控制 Drawer、hash 路由切頁；可選用 Role/Scanner
 (function () {
   function bindUI() {
+    // Drawer
     const menuBtn = document.getElementById('menuBtn');
-    const drawer = document.getElementById('drawer');
-    const scrim = document.getElementById('scrim');
+    const drawer  = document.getElementById('drawer');
+    const scrim   = document.getElementById('scrim');
     const closeDrawer = document.getElementById('closeDrawer');
 
     const open = () => { drawer?.classList.add('open'); scrim?.classList.add('show'); };
-    const close = () => { drawer?.classList.remove('open'); scrim?.classList.remove('show'); };
+    const close= () => { drawer?.classList.remove('open'); scrim?.classList.remove('show'); };
 
-    menuBtn?.addEventListener('click', open);
-    closeDrawer?.addEventListener('click', close);
-    scrim?.addEventListener('click', close);
+    menuBtn && menuBtn.addEventListener('click', open);
+    closeDrawer && closeDrawer.addEventListener('click', close);
+    scrim && scrim.addEventListener('click', close);
+    if (drawer) {
+      drawer.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', close));
+    }
 
-    if (drawer) drawer.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', close));
+    // Scanner（存在才初始化）
+    if (window.Scanner && typeof Scanner.init === 'function') {
+      Scanner.init();
+    }
 
-    Scanner.init();
+    // 角色守門（存在才執行）
+    if (window.Role && typeof Role.guard === 'function') {
+      const stopped = Role.guard();
+      if (stopped) return; // 顯示 rolePage 就先不跑其他路由
+    }
 
+    // Hash
     window.addEventListener('hashchange', () => {
       route();
       window.scrollTo({ top: 0, behavior: 'auto' });
     });
   }
 
-  function route(){
-    // role 守門：若未選擇身分，跳 role（並隱藏其他區塊與 scanner）
-    if (typeof Role !== 'undefined' && Role.get() === '' && location.hash !== 'role') {
-  location.hash = '#role';
-  return;
-}
+  function route() {
+    // 如果在 role 選擇頁，就交給 Role 模組處理
+    if (window.Role && typeof Role.guard === 'function') {
+      const showingRole = Role.guard();
+      if (showingRole) return;
+    }
 
-    const hashRaw = (location.hash || '').replace(/^#/, '');
-    const hash = hashRaw || '';
+    const hash = (location.hash || '').replace(/^#/, '');
     const isAccount = hash === 'account' || hash.startsWith('account/');
 
-    const hero     = document.getElementById('hero');
-    const qa       = document.querySelector('.quick-actions');
-    const info     = document.getElementById('expoInfo');
-    const powered  = document.querySelector('.powered');
-    const fab      = document.getElementById('scanFab');
+    // 首頁模組
+    const hero    = document.getElementById('hero');
+    const qa      = document.querySelector('.quick-actions');
+    const info    = document.getElementById('expoInfo');
+    const powered = document.querySelector('.powered');
+    const fab     = document.getElementById('scanFab');
 
+    // 子頁
     const ePage = document.getElementById('ecardPage');
     const bPage = document.getElementById('brandsPage');
     const cPage = document.getElementById('contactPage');
@@ -47,53 +61,36 @@
     const aPage = document.getElementById('accountPage');
     const abPage= document.getElementById('aboutPage');
 
-    const showHome = ()=>{
+    const setVisible = (el, show) => {
+      if (!el) return;
+      el.hidden = !show;
+      el.setAttribute('aria-hidden', String(!show));
+    };
+    const showHome = () => {
       hero && (hero.style.display = '');
       qa && (qa.style.display = '');
       info && (info.style.display = '');
       powered && (powered.style.display = '');
-      Utils.setVisible(ePage, false);
-      Utils.setVisible(bPage, false);
-      Utils.setVisible(cPage, false);
-      Utils.setVisible(tPage, false);
-      Utils.setVisible(aPage, false);
-      if (abPage){ abPage.hidden = true; abPage.setAttribute('aria-hidden','true'); }
+      [ePage,bPage,cPage,tPage,aPage,abPage].forEach(p => setVisible(p, false));
       fab && (fab.style.display = '');
       document.title = 'ExpoLink';
     };
-    const showOnly = (pageEl, title)=>{
+    const showOnly = (pageEl, title) => {
       hero && (hero.style.display = 'none');
       qa && (qa.style.display = 'none');
       info && (info.style.display = 'none');
       powered && (powered.style.display = 'none');
-      Utils.setVisible(ePage, pageEl === ePage);
-      Utils.setVisible(bPage, pageEl === bPage);
-      Utils.setVisible(cPage, pageEl === cPage);
-      Utils.setVisible(tPage, pageEl === tPage);
-      Utils.setVisible(aPage, pageEl === aPage);
+      [ePage,bPage,cPage,tPage,aPage,abPage].forEach(p => setVisible(p, p === pageEl));
       fab && (fab.style.display = 'none');
       if (!isAccount) document.title = title;
     };
 
-    if (isAccount && aPage){ showOnly(aPage, '會員中心 | ExpoLink'); return; }
-    if (hash === 'ecard' && ePage){
-      const title = (window.HOME?.ecard?.name ? `${window.HOME.ecard.name} - 名片` : '電子名片') + ' | ExpoLink';
-      showOnly(ePage, title); return;
-    }
+    if (isAccount && aPage) { showOnly(aPage, '會員中心 | ExpoLink'); return; }
+    if (hash === 'ecard' && ePage){ showOnly(ePage, `${(HOME?.ecard?.name||'電子名片')} | ExpoLink`); return; }
     if (hash === 'brands' && bPage){ showOnly(bPage, '參展品牌 | ExpoLink'); return; }
     if (hash === 'contact' && cPage){ showOnly(cPage, '聯絡主辦 | ExpoLink'); return; }
     if (hash === 'transport' && tPage){ showOnly(tPage, '交通資訊 | ExpoLink'); return; }
-
-    if (abPage){ abPage.hidden = true; abPage.setAttribute('aria-hidden','true'); }
-    if (hash === 'about' && abPage){
-      hero && (hero.style.display = 'none'); qa && (qa.style.display = 'none');
-      info && (info.style.display = 'none'); powered && (powered.style.display = 'none');
-      abPage.hidden = false; abPage.setAttribute('aria-hidden','false');
-      [ePage,bPage,cPage,tPage,aPage].forEach(p => p && (p.hidden = true, p.setAttribute('aria-hidden','true')));
-      fab && (fab.style.display = 'none');
-      document.title = '關於 ExpoLink | ExpoLink';
-      return;
-    }
+    if (hash === 'about' && abPage){ showOnly(abPage, '關於 ExpoLink | ExpoLink'); return; }
 
     showHome();
   }
