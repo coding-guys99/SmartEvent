@@ -1,0 +1,84 @@
+/* ==========================================================
+   scanner.css — 掃描 FAB + 底部抽屜（Overlay）
+   ========================================================== */
+
+/* ---------- FAB ---------- */
+.fab{
+  position:fixed; right:16px; bottom: calc(16px + env(safe-area-inset-bottom));
+  width:58px; height:58px; border-radius:20px; z-index:32; cursor:pointer;
+  color:#08101d; border:0;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  box-shadow: 0 16px 40px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.08) inset;
+  display:grid; place-items:center; transition: transform .12s ease, box-shadow .12s ease;
+}
+.fab:active{ transform: translateY(1px); }
+.fab.is-mini{ width:48px; height:48px; border-radius:16px; }  /* 捲動時縮小可選 */
+
+/* ---------- Overlay + Bottom Sheet ---------- */
+.scanner{
+  position:fixed; inset:0; z-index:50;
+  background: rgba(1,5,12,.6);
+  backdrop-filter: blur(6px);
+  opacity:0; pointer-events:none; transition: opacity .24s ease;
+}
+.scanner.show{ opacity:1; pointer-events:auto; }
+
+.scanner-wrap{
+  position:absolute; left:50%; bottom:0; transform: translate(-50%, 12px);
+  width:100%; max-width:720px;
+  padding:10px 12px calc(12px + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(17,24,42,.82), rgba(11,15,26,.95));
+  border-radius:18px 18px 0 0; border:1px solid var(--line);
+  box-shadow: var(--shadow);
+  transition: transform .28s cubic-bezier(.2,.7,.2,1);
+}
+.scanner.show .scanner-wrap{ transform: translate(-50%, 0); }
+
+.scanner-top{
+  display:flex; align-items:center; justify-content:space-between; padding:6px 2px 12px;
+}
+.scanner-top .title{
+  display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
+}
+.scanner-top .handle{
+  display:block; width:42px; height:4px; border-radius:999px; margin:0 auto 8px;
+  background: rgba(255,255,255,.16);
+}
+
+/* ---------- Camera Box ---------- */
+.cam{
+  position:relative; height:300px; display:grid; place-items:center; margin:6px 0 10px;
+  background: radial-gradient(1200px 320px at 50% -10%, rgba(0,255,224,.15), transparent 65%), rgba(255,255,255,.03);
+  border:1px solid var(--line); border-radius:16px; overflow:hidden;
+}
+.frame{
+  position:relative; width:min(86%,420px); height:66%; border-radius:12px;
+  border:1px dashed rgba(255,255,255,.35);
+}
+.corner{position:absolute; width:22px; height:22px; border:3px solid var(--primary); }
+.corner.tl{left:-3px; top:-3px; border-right:none; border-bottom:none;}
+.corner.tr{right:-3px; top:-3px; border-left:none; border-bottom:none;}
+.corner.bl{left:-3px; bottom:-3px; border-right:none; border-top:none;}
+.corner.br{right:-3px; bottom:-3px; border-left:none; border-top:none;}
+.laser{
+  position:absolute; left:6%; right:6%; height:2px; top:14%;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation: scan 2.1s linear infinite; box-shadow: 0 0 14px var(--accent);
+}
+@keyframes scan{ 0%{ top:14% } 50%{ top:78% } 100%{ top:14% } }
+@media (prefers-reduced-motion: reduce){ .laser{ animation:none; } }
+
+.hint{ position:absolute; bottom:10px; font-size:.92rem; color:var(--muted); }
+
+/* ---------- Controls ---------- */
+.scan-ctr{ display:flex; gap:10px; align-items:center; justify-content:center; margin:6px 0 2px; flex-wrap:wrap; }
+#btnTorch.icon-btn{ border-color:var(--line); }
+#btnTorch.active{ border-color: var(--primary); box-shadow: 0 0 0 2px rgba(0,255,224,.15); }
+
+/* ---------- Result states ---------- */
+.scan-result{ margin-top:6px; min-height:28px; text-align:center; color:var(--muted); }
+.scan-result.ok{ color: var(--accent); }
+.scan-result.fail{ color: var(--danger); }
+
+/* 防背景滾動（JS 會加到 <body>） */
+body.noscroll{ overflow: hidden; }
