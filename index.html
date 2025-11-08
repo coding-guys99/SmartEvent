@@ -774,18 +774,23 @@
 
   <div class="safe-bottom"></div>
 
-<!-- JS：先工具、守門，再各模組、最後啟動器 -->
-<script src="js/utils.js" defer></script>
-<script src="js/role.js" defer></script>
+<!-- 先工具與共用 -->
+<script src="js/utils.js"></script>
 
-<script src="js/home.js" defer></script>
-<script src="js/ecard.js" defer></script>
-<script src="js/brands.js" defer></script>
-<script src="js/contact.js" defer></script>
-<script src="js/transport.js" defer></script>
-<script src="js/account.js" defer></script>
-<script src="js/router.js" defer></script>
-<script src="js/scanner.js" defer></script>
-<script src="js/app.js" defer></script> <!-- 啟動用，見下 -->
+<!-- 功能模組（與 Scanner / Role） -->
+<script src="js/scanner.js"></script>
+<script src="js/role.js"></script>
+<script src="js/home.js"></script>
+<script src="js/ecard.js"></script>
+<script src="js/brands.js"></script>
+<script src="js/contact.js"></script>
+<script src="js/transport.js"></script>
+<script src="js/account.js"></script>
+
+<!-- 路由最後載入 -->
+<script src="js/router.js"></script>
+
+<!-- 啟動 -->
+<script src="js/app.js"></script>
 </body>
 </html>
