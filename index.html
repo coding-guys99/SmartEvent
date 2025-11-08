@@ -732,11 +732,12 @@
   </button>
 
   <!-- 掃描 Overlay（UI 模擬，可日後換原生/Capacitor） -->
-  <section id="scanner" class="scanner" aria-hidden="true">
+  <section id="scanner" class="scanner" role="dialog" aria-hidden="true">
     <div class="scanner-wrap">
       <div class="scanner-top">
+        <span class="handle" aria-hidden="true"></span>
         <div class="title"><span class="i i-scan"></span> 掃描入場 / 兌換</div>
-        <button id="closeScanner" class="icon-btn"><span class="i i-down"></span></button>
+        <button id="closeScanner" class="icon-btn" aria-label="關閉"><span class="i i-down"></span></button>
       </div>
 
       <!-- 相機畫面區（先用背景 + 動畫線） -->
