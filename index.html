@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no"/>
+  <meta name="theme-color" content="#0b0f1a"/>
+  <title>ExpoLink — 專屬展會模板</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="app">
+
+  <!-- 安全區（瀏海、動態島） -->
+  <div class="safe-top"></div>
+
+  <!-- NAV -->
+  <header class="navbar">
+    <div class="nav-left">
+      <img class="brand" src="data:image/svg+xml;utf8,
+        <svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'>
+          <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+            <stop offset='0%' stop-color='%2300FFE0'/><stop offset='100%' stop-color='%237B61FF'/>
+          </linearGradient></defs>
+          <rect rx='9' ry='9' x='3' y='3' width='34' height='34' fill='%2310172a'/>
+          <path d='M10 20h20M20 10v20' stroke='url(%23g)' stroke-width='3' stroke-linecap='round'/>
+        </svg>" alt="ExpoLink"/>
+      <span class="logo-text">ExpoLink</span>
+    </div>
+    <button id="menuBtn" class="icon-btn" aria-label="開啟選單">
+      <span class="i i-menu"></span>
+    </button>
+  </header>
+
+  <!-- 右側抽屜 -->
+  <aside id="drawer" class="drawer">
+    <div class="drawer-head">
+      <span>選單</span>
+      <button id="closeDrawer" class="icon-btn"><span class="i i-close"></span></button>
+    </div>
+    <nav class="drawer-nav">
+      <a href="#" class="item"><span class="i i-home"></span> 首頁</a>
+      <a href="#account" class="item"><span class="i i-info"></span> 會員中心</a>
+      <a href="#transport" class="item"><span class="i i-map"></span> 交通資訊</a>
+      <a href="#brands" class="item"><span class="i i-store"></span> 參展品牌</a>
+      <a href="#ecard" class="item"><span class="i i-card"></span> 電子名片</a> <!-- ★ 新增 -->
+      <a href="#contact" class="item"><span class="i i-mail"></span> 聯絡主辦</a>
+      <a href="#about" class="item"><span class="i i-info"></span> 關於 ExpoLink</a>
+    </nav>
+  </aside>
+  <div id="scrim" class="scrim" tabindex="-1" aria-hidden="true"></div>
+
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <div class="hero-bg">
+      <div class="grid"></div>
+      <div class="aurora"></div>
+      <img id="heroImg" alt="Hero"/>
+    </div>
+    <div class="hero-content glass">
+      <h1 id="heroTitle" class="gradient-text"></h1>
+      <p id="heroSubtitle" class="muted"></p>
+      <div id="heroCtas" class="btn-group"></div>
+    </div>
+    <div class="hero-shade"></div>
+  </section>
+
+  <!-- 導流按鈕列（可選：加一顆導到名片） -->
+  <section class="quick-actions">
+    <div id="actions" class="chips"></div>
+  </section>
+
+
+  <!-- 展會資訊卡 -->
+  <section id="expoInfo" class="info-cards">
+    <div class="card">
+      <div class="k">日期</div>
+      <div class="v" id="infoDate">—</div>
+    </div>
+    <div class="card">
+      <div class="k">地點</div>
+      <div class="v" id="infoVenue">—</div>
+    </div>
+    <div class="card">
+      <div class="k">主辦</div>
+      <div class="v" id="infoOrganizer">—</div>
+    </div>
+    <div class="card accent">
+      <div class="k">倒數</div>
+      <div class="v" id="infoCountdown">—</div>
+    </div>
+  </section>
+
+  <!-- 你的曝光（Powered by） -->
+  <section class="powered glass">
+    <div class="powered-row">
+      <span class="muted" id="poweredText"></span>
+      <a id="poweredCta" class="btn btn-primary" target="_blank" rel="noopener">了解模板</a>
+    </div>
+  </section>
+
+<!-- ★★★ 會員中心（#account）＋二級頁 ★★★ -->
+<main id="accountPage" hidden>
+  <!-- 首頁：功能入口卡片 -->
+  <section id="accountHome" class="acct-sec">
+    <!-- 頭像卡 / 完成度 -->
+    <header class="acct-hero glass">
+      <div class="ah-left">
+        <div class="ah-avatar"></div>
+        <div>
+          <div class="ah-name">訪客</div>
+          <div class="ah-sub muted">未登入</div>
+        </div>
+      </div>
+      <div class="ah-right">
+        <a href="#ecard" class="btn btn-outline"><span class="i i-card"></span> 查看名片</a>
+      </div>
+      <div class="ah-progress">
+        <div class="bar"><span style="width: 40%"></span></div>
+        <div class="k">名片完成度 40%</div>
+      </div>
+    </header>
+
+    <!-- 功能卡 -->
+    <section class="acct-grid">
+      <a class="feature-card glass" href="#account/profile">
+        <div class="fc-ico"><span class="i i-person"></span></div>
+        <div class="fc-title">個人資料</div>
+        <div class="fc-sub muted">姓名、公司、職稱、聯絡方式</div>
+        <div class="fc-badge">建議先完成</div>
+      </a>
+
+      <a class="feature-card glass" href="#account/visibility">
+        <div class="fc-ico"><span class="i i-eye"></span></div>
+        <div class="fc-title">名片公開</div>
+        <div class="fc-sub muted">勾選要顯示在電子名片上的欄位</div>
+      </a>
+
+      <a class="feature-card glass" href="#account/qr">
+        <div class="fc-ico"><span class="i i-qr"></span></div>
+        <div class="fc-title">我的 QR</div>
+        <div class="fc-sub muted">展示你的名片 QR 供他人掃描</div>
+      </a>
+
+      <a class="feature-card glass" href="#account/exchanges">
+        <div class="fc-ico"><span class="i i-handshake"></span></div>
+        <div class="fc-title">交換名片</div>
+        <div class="fc-sub muted">查看已互換的名片清單</div>
+      </a>
+
+      <a class="feature-card glass" href="#account/linked">
+        <div class="fc-ico"><span class="i i-key"></span></div>
+        <div class="fc-title">登入與綁定</div>
+        <div class="fc-sub muted">Google、Apple、Email</div>
+      </a>
+
+      <a class="feature-card glass" href="#account/prefs">
+        <div class="fc-ico"><span class="i i-gear"></span></div>
+        <div class="fc-title">偏好設定</div>
+        <div class="fc-sub muted">名錄、分享名片、通知、語言</div>
+      </a>
+    </section>
+  </section>
+
+  <!-- ─── 二級頁：共用結構（標題列 + 內容 + Sticky CTA） ─── -->
+
+  <!-- 個人資料 -->
+  <section id="accountProfile" class="subpage" hidden>
+    <header class="sub-head">
+      <a href="#account" class="icon-btn"><span class="i i-back"></span></a>
+      <h3><span class="i i-person"></span> 個人資料</h3>
+    </header>
+
+    <section class="sub-body">
+      <div class="glass sub-card">
+        <h4>基本資訊</h4>
+        <div class="row two">
+          <label class="field"><span>姓名 *</span><input type="text" placeholder="王小明"></label>
+          <label class="field"><span>職稱</span><input type="text" placeholder="行銷經理"></label>
+        </div>
+        <div class="row two">
+          <label class="field"><span>公司</span><input type="text" placeholder="Acme Inc."></label>
+          <label class="field"><span>Email</span><input type="email" placeholder="you@example.com"></label>
+        </div>
+        <div class="row two">
+          <label class="field"><span>電話</span><input type="tel" placeholder="+8869..."></label>
+          <label class="field"><span>網站</span><input type="url" placeholder="https://..."></label>
+        </div>
+        <label class="field"><span>個人簡介</span><textarea rows="4" placeholder="請簡短介紹自己…"></textarea></label>
+      </div>
+
+      <div class="glass sub-card">
+        <h4>頭像</h4>
+        <div class="avatar-row">
+          <div class="avatar ph"></div>
+          <div class="avatar-actions">
+            <button class="btn btn-outline btn-sm"><span class="i i-upload"></span> 上傳</button>
+            <button class="btn btn-sm"><span class="i i-refresh"></span> 重設</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sheet-cta">
+      <button class="btn btn-primary">儲存</button>
+      <button class="btn btn-outline">重設</button>
+    </div>
+  </section>
+
+  <!-- 名片公開 -->
+  <section id="accountVisibility" class="subpage" hidden>
+    <header class="sub-head">
+      <a href="#account" class="icon-btn"><span class="i i-back"></span></a>
+      <h3><span class="i i-eye"></span> 名片公開</h3>
+    </header>
+
+    <section class="sub-body">
+      <div class="glass sub-card">
+        <h4>顯示欄位</h4>
+        <ul class="vis-list">
+          <li><label><input type="checkbox" checked> 姓名</label></li>
+          <li><label><input type="checkbox" checked> 職稱</label></li>
+          <li><label><input type="checkbox" checked> 公司</label></li>
+          <li><label><input type="checkbox"> Email</label></li>
+          <li><label><input type="checkbox"> 電話</label></li>
+          <li><label><input type="checkbox" checked> 網站</label></li>
+          <li><label><input type="checkbox"> 地址</label></li>
+          <li><label><input type="checkbox" checked> 簡介</label></li>
+        </ul>
+        <div class="vis-actions">
+          <button class="btn btn-sm">全部顯示</button>
+          <button class="btn btn-sm btn-outline">全部隱藏</button>
+        </div>
+      </div>
+
+      <div class="glass sub-card">
+        <h4>名片預覽</h4>
+        <div class="ecard-mini">
+          <div class="em-row name">王小明</div>
+          <div class="em-row title">行銷經理 @ Acme Inc.</div>
+          <div class="em-row meta">
+            <span class="i i-mail"></span> you@example.com　·　
+            <span class="i i-link"></span> acme.com
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sheet-cta">
+      <button class="btn btn-primary">儲存</button>
+      <button class="btn btn-outline">重設</button>
+    </div>
+  </section>
+
+  <!-- 我的 QR -->
+  <section id="accountQR" class="subpage" hidden>
+    <header class="sub-head">
+      <a href="#account" class="icon-btn"><span class="i i-back"></span></a>
+      <h3><span class="i i-qr"></span> 我的 QR</h3>
+    </header>
+
+    <section class="sub-body">
+      <div class="glass qr-card">
+        <div class="qr-box">
+          <div class="qr-ph">QR</div>
+        </div>
+        <div class="qr-meta">
+          <div class="k">一次性代碼有效倒數</div>
+          <div class="timer">60s</div>
+        </div>
+        <div class="qr-actions">
+          <button class="btn btn-primary"><span class="i i-refresh"></span> 重新產生</button>
+          <button class="btn btn-outline"><span class="i i-full"></span> 全螢幕</button>
+        </div>
+        <p class="muted small">提示：他人掃描後，若對方已登入並同意分享名片，將自動互換。</p>
+      </div>
+    </section>
+
+    <div class="sheet-cta">
+      <a href="#ecard" class="btn btn-outline"><span class="i i-card"></span> 檢視我的名片</a>
+      <button class="btn">分享連結</button>
+    </div>
+  </section>
+
+  <!-- 交換名片 -->
+  <section id="accountExchanges" class="subpage" hidden>
+    <header class="sub-head">
+      <a href="#account" class="icon-btn"><span class="i i-back"></span></a>
+      <h3><span class="i i-handshake"></span> 交換名片</h3>
+    </header>
+
+    <section class="sub-body">
+      <div class="glass sub-card">
+        <ul class="ex-list">
+          <li class="ex-item">
+            <div class="ex-avatar"></div>
+            <div class="ex-body">
+              <div class="ex-name">林小姐</div>
+              <div class="ex-sub muted">PM @ NanoTech</div>
+            </div>
+            <div class="ex-meta muted">今天</div>
+          </li>
+          <li class="ex-item">
+            <div class="ex-avatar"></div>
+            <div class="ex-body">
+              <div class="ex-name">張先生</div>
+              <div class="ex-sub muted">BD @ StarLab</div>
+            </div>
+            <div class="ex-meta muted">昨天</div>
+          </li>
+        </ul>
+        <div class="empty muted" hidden>尚無交換紀錄，點「我的 QR」開始交換吧！</div>
+      </div>
+    </section>
+
+    <div class="sheet-cta">
+      <a href="#account/qr" class="btn btn-primary"><span class="i i-qr"></span> 顯示我的 QR</a>
+    </div>
+  </section>
+
+  <!-- 登入與綁定 -->
+  <section id="accountLinked" class="subpage" hidden>
+    <header class="sub-head">
+      <a href="#account" class="icon-btn"><span class="i i-back"></span></a>
+      <h3><span class="i i-key"></span> 登入與綁定</h3>
+    </header>
+
+    <section class="sub-body">
+      <div class="glass sub-card">
+        <h4>目前登入</h4>
+        <div class="bind-row">
+          <div class="bind-ico"><span class="i i-mail"></span></div>
+          <div class="bind-body">
+            <div class="bind-title">Email</div>
+            <div class="muted">you@example.com</div>
+          </div>
+          <button class="btn btn-outline btn-sm">登出</button>
+        </div>
+      </div>
+
+      <div class="glass sub-card">
+        <h4>其他綁定</h4>
+        <div class="bind-row">
+          <div class="bind-ico"><span class="i i-google"></span></div>
+          <div class="bind-body"><div class="bind-title">Google</div></div>
+          <button class="btn btn-sm">綁定</button>
+        </div>
+        <div class="bind-row">
+          <div class="bind-ico"><span class="i i-apple"></span></div>
+          <div class="bind-body"><div class="bind-title">Apple</div></div>
+          <button class="btn btn-sm">綁定</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="sheet-cta">
+      <button class="btn btn-outline">管理裝置</button>
+    </div>
+  </section>
+
+  <!-- 偏好設定 -->
+  <section id="accountPrefs" class="subpage" hidden>
+    <header class="sub-head">
+      <a href="#account" class="icon-btn"><span class="i i-back"></span></a>
+      <h3><span class="i i-gear"></span> 偏好設定</h3>
+    </header>
+
+    <section class="sub-body">
+      <div class="glass sub-card">
+        <h4>可見性與同意</h4>
+        <label class="toggle"><input type="checkbox"> 加入展會名錄</label>
+        <label class="toggle"><input type="checkbox" checked> 掃描時自動分享我的名片</label>
+        <label class="toggle"><input type="checkbox"> 接收最新活動通知</label>
+      </div>
+
+      <div class="glass sub-card">
+        <h4>介面</h4>
+        <div class="row two compact">
+          <label class="field"><span>語言</span>
+            <select><option>繁體中文</option><option>English</option></select>
+          </label>
+          <label class="field"><span>時區</span>
+            <select><option>Asia/Taipei</option><option>UTC</option></select>
+          </label>
+        </div>
+      </div>
+
+      <div class="glass sub-card danger">
+        <h4>資料匯出與刪除</h4>
+        <div class="danger-line">
+          <button class="btn btn-outline btn-sm"><span class="i i-download"></span> 匯出我的名片</button>
+          <button class="btn btn-danger btn-sm"><span class="i i-trash"></span> 刪除帳號</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="sheet-cta">
+      <button class="btn btn-primary">儲存</button>
+      <button class="btn btn-outline">重設</button>
+    </div>
+  </section>
+</main>
+
+<!-- ★★★ 交通資訊（#transport） ★★★ -->
+<main id="transportPage" hidden>
+  <section class="tp-sec">
+    <header class="tp-head">
+      <h2>交通資訊</h2>
+      <p class="muted">會場位置、捷運／公車／開車與停車、接駁車與計程車等方式一次看。</p>
+    </header>
+
+    <!-- 會場卡片 -->
+    <div class="tp-venue glass">
+      <div class="tp-venue-main">
+        <div class="tp-venue-name" id="tpVenueName">—</div>
+        <div class="tp-venue-addr" id="tpVenueAddr">—</div>
+      </div>
+      <div class="tp-venue-actions">
+        <a id="tpMapBtn" class="btn btn-outline" target="_blank" rel="noopener"><span class="i i-map"></span> 開啟地圖</a>
+      </div>
+    </div>
+
+    <!-- 地圖（可 iframe / 圖片 / 連結） -->
+    <div class="tp-map" id="tpMapBox">
+      <iframe id="tpMapEmbed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <img id="tpMapImg" alt="map" />
+    </div>
+
+    <!-- 模式 chips -->
+    <div id="tpChips" class="tp-chips"></div>
+
+    <!-- 內容輸出 -->
+    <div id="tpContent" class="tp-content"></div>
+
+    <!-- 備註 -->
+    <div id="tpTips" class="tp-tips"></div>
+  </section>
+</main>
+
+<!-- 參展品牌 -->
+<main id="brandsPage" hidden>
+<section id="brands" class="brands-sec">
+  <div class="brands-head">
+    <h2>參展品牌</h2>
+    <div class="tools">
+      <div class="search">
+        <input id="brandSearch" type="search" placeholder="搜尋品牌、類別或攤位…">
+        <button id="brandSearchClear" class="icon-btn" title="清除">✕</button>
+      </div>
+      <div class="sort">
+        <label for="brandSort">Sort</label>
+        <select id="brandSort">
+          <option value="name_asc">名稱 A → Z</option>
+          <option value="name_desc">名稱 Z → A</option>
+          <option value="category">類別</option>
+          <option value="booth">攤位號</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- 類別 chips -->
+  <div id="brandChips" class="chips-row"></div>
+
+  <div id="brandGrid" class="brand-grid"></div>
+</section>
+</main>
+
+<!-- ★★★ 聯絡主辦（#contact） ★★★ -->
+<main id="contactPage" hidden>
+  <section class="contact-sec">
+    <header class="contact-head">
+      <h2>聯絡主辦</h2>
+      <p class="muted">填寫表單或使用下方快速聯絡方式與我們取得聯繫。</p>
+    </header>
+
+    <!-- 主辦資訊卡 -->
+    <div class="contact-cards">
+      <a class="c-card" id="cEmailCard" href="#">
+        <div class="c-ico">✉️</div>
+        <div class="c-txt">
+          <div class="k">Email</div>
+          <div class="v" id="cEmailTxt">—</div>
+        </div>
+      </a>
+      <a class="c-card" id="cPhoneCard" href="#">
+        <div class="c-ico">📞</div>
+        <div class="c-txt">
+          <div class="k">電話</div>
+          <div class="v" id="cPhoneTxt">—</div>
+        </div>
+      </a>
+      <a class="c-card" id="cAddrCard" href="#" target="_blank" rel="noopener">
+        <div class="c-ico">📍</div>
+        <div class="c-txt">
+          <div class="k">地址</div>
+          <div class="v" id="cAddrTxt">—</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- 表單 -->
+    <form id="contactForm" class="c-form" novalidate>
+      <div class="row two">
+        <label class="field">
+          <span>姓名 *</span>
+          <input id="cfName" name="name" type="text" required placeholder="您的稱呼">
+          <small class="err">請輸入姓名</small>
+        </label>
+        <label class="field">
+          <span>Email *</span>
+          <input id="cfEmail" name="email" type="email" required placeholder="you@example.com">
+          <small class="err">Email 格式不正確</small>
+        </label>
+      </div>
+
+      <div class="row two">
+        <label class="field">
+          <span>公司</span>
+          <input id="cfCompany" name="company" type="text" placeholder="選填">
+        </label>
+        <label class="field">
+          <span>主旨 *</span>
+          <input id="cfSubject" name="subject" type="text" required placeholder="例如：攤位申請 / 媒體合作">
+          <small class="err">請輸入主旨</small>
+        </label>
+      </div>
+
+      <label class="field">
+        <span>訊息 *</span>
+        <textarea id="cfMessage" name="message" rows="6" required placeholder="請描述您的需求或問題…"></textarea>
+        <small class="err">請輸入訊息</small>
+      </label>
+
+      <div class="actions">
+        <button id="cfSubmit" type="submit" class="btn btn-primary">送出</button>
+        <button id="cfReset" type="reset" class="btn btn-outline">清除</button>
+      </div>
+
+      <p id="cfStatus" class="cf-status" aria-live="polite"></p>
+    </form>
+  </section>
+</main>
+
+<!-- ★★★ 電子名片：可翻面 ★★★ -->
+<main id="ecardPage" hidden>
+  <section class="ecard-wrap">
+    <!-- 3D 翻轉容器 -->
+    <div class="ec-flip" id="ecFlip">
+      <div class="ec-inner" id="ecInner">
+        <!-- 正面 -->
+        <div class="ecard-card glass ec-front" id="ecardCard">
+          <div class="ec-logo">
+            <img id="ecLogo" alt="logo" />
+            <div id="ecMonogram" class="ec-mono" aria-hidden="true"></div>
+          </div>
+          <div class="ec-qr">
+            <img id="ecQr" alt="QR code" />
+            <div id="ecQrPh" class="ec-qr-ph">QR</div>
+          </div>
+          <div class="ec-who">
+            <h2 id="ecName">—</h2>
+            <p id="ecTitle">—</p>
+            <p id="ecOrg" class="muted">—</p>
+          </div>
+          <div class="ec-contact">
+            <div class="row"><span class="i i-phone"></span><a id="ecPhone" href="#">—</a></div>
+            <div class="row"><span class="i i-mail"></span><a id="ecEmail" href="#">—</a></div>
+            <div class="row"><span class="i i-link"></span><a id="ecSite" href="#" target="_blank" rel="noopener">—</a></div>
+            <div class="row"><span class="i i-map"></span><span id="ecAddr">—</span></div>
+          </div>
+        </div>
+
+        <!-- 反面 -->
+        <div class="ecard-card glass ec-back" id="ecardBack">
+          <div class="ec-back-wrap">
+            <div class="ec-back-head">
+              <h3 id="ecBackTitle" class="gradient-text">—</h3>
+              <p id="ecBackSub" class="muted">—</p>
+            </div>
+            <ul id="ecBackBullets" class="ec-bullets"></ul>
+            <div class="ec-map" id="ecMapBox">
+              <img id="ecMapImg" alt="map"/>
+              <a id="ecMapBtn" class="btn btn-outline" target="_blank" rel="noopener"><span class="i i-map"></span> 開啟地圖</a>
+            </div>
+            <div class="ec-back-links" id="ecBackLinks"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 卡下方操作 -->
+    <div class="ecard-ops">
+      <a id="ecVcf" class="btn btn-primary" download="contact.vcf"><span class="i i-download"></span> 下載名片</a>
+      <button id="ecShare" class="btn btn-outline"><span class="i i-share"></span> 分享</button>
+      <button id="ecFlipBtn" class="btn"><span class="i i-info"></span> 翻面</button>
+    </div>
+  </section>
+</main>
+
+<!-- ★★★ 關於 ExpoLink（#about） ★★★ -->
+<main id="aboutPage" hidden>
+  <section class="about-hero glass">
+    <h1 class="gradient-text">ExpoLink</h1>
+    <p class="muted">打造專屬展會的智慧模板。模組化、可租可售、即時互動。</p>
+  </section>
+
+  <section class="about-sec">
+    <h2>關於 ExpoLink</h2>
+    <p>
+      ExpoLink 是一個專為 <b>展會主辦方與品牌參展者</b> 打造的智慧展會模板系統。<br/>
+      透過模組化結構與電子名片功能，你可以快速建立屬於自己的數位展會網站，<br/>
+      展示品牌、交換名片、發佈活動資訊，讓每一次參展都能留下連結與價值。
+    </p>
+  </section>
+
+  <section class="about-features">
+    <h2>核心特色</h2>
+    <div class="about-grid">
+      <div class="a-card">
+        <span class="i i-qr"></span>
+        <h3>智慧名片交換</h3>
+        <p>掃描 QR 即可交換電子名片，自動同步資料。</p>
+      </div>
+      <div class="a-card">
+        <span class="i i-store"></span>
+        <h3>品牌展示模組</h3>
+        <p>支援搜尋與類別篩選，輕鬆打造專屬品牌牆。</p>
+      </div>
+      <div class="a-card">
+        <span class="i i-gear"></span>
+        <h3>模組化設計</h3>
+        <p>可依需求啟用不同模組，靈活擴充、快速部署。</p>
+      </div>
+      <div class="a-card">
+        <span class="i i-key"></span>
+        <h3>可租可售</h3>
+        <p>可選擇雲端租用、買斷授權或白標版本。</p>
+      </div>
+      <div class="a-card">
+        <span class="i i-link"></span>
+        <h3>整合擴充</h3>
+        <p>支援 API、Supabase、CRM 與自家後端串接。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-usage">
+    <h2>適用場景</h2>
+    <p class="muted">
+      展會主辦、招商博覽、市集活動、校園就博會、產業展演、品牌快閃活動。<br/>
+      無論短期活動或長期平台，ExpoLink 都能即時上線。
+    </p>
+  </section>
+
+  <section class="about-plans">
+    <h2>授權方案</h2>
+    <div class="plans-grid">
+      <div class="plan-card glass">
+        <h3>租用版</h3>
+        <p>適合短期活動，快速上線、雲端代管。</p>
+      </div>
+      <div class="plan-card glass">
+        <h3>買斷版</h3>
+        <p>自主管理、可整合自家系統。</p>
+      </div>
+      <div class="plan-card glass">
+        <h3>白標版</h3>
+        <p>移除品牌標示，完全客製化外觀與域名。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-cta">
+    <h2>想打造專屬展會平台？</h2>
+    <div class="btn-group">
+      <a href="#contact" class="btn btn-primary"><span class="i i-mail"></span> 聯絡諮詢</a>
+      <a href="#" class="btn btn-outline"><span class="i i-handshake"></span> 索取方案</a>
+      <a href="#home" class="btn"><span class="i i-full"></span> 查看 Demo</a>
+    </div>
+  </section>
+
+  <footer class="footer small">
+    © 2025 ExpoLink • Developed by <b>Aplus System</b>
+  </footer>
+</main>
+
+<!-- ★★★ 角色選擇（#role） ★★★ -->
+<main id="rolePage">
+  <section class="role-sec">
+    <header class="role-hero glass">
+      <h1 class="gradient-text">選擇你的身分</h1>
+      <p class="muted">為你量身打造對應體驗。稍後仍可從選單切換。</p>
+    </header>
+
+    <div class="role-grid">
+      <!-- Visitor -->
+      <button class="role-card glass" data-role="visitor" aria-label="我是參觀者">
+        <div class="rc-ico"><span class="i i-visitor"></span></div>
+        <h3>我是參觀者 Visitor</h3>
+        <p class="muted">瀏覽展會、品牌名錄與交通資訊；不需登入即可體驗。</p>
+        <div class="rc-cta">進入展會</div>
+      </button>
+
+      <!-- Exhibitor -->
+      <button class="role-card glass" data-role="exhibitor" aria-label="我是參展者">
+        <div class="rc-ico"><span class="i i-exhibitor"></span></div>
+        <h3>我是參展者 Exhibitor</h3>
+        <p class="muted">登入會員中心、編輯電子名片、管理品牌資訊與交換記錄。</p>
+        <div class="rc-cta">前往登入</div>
+      </button>
+    </div>
+
+    <div class="role-extra">
+      <a href="#" id="roleSkip" class="muted">先看看再說（以參觀者進入）</a>
+    </div>
+
+    <footer class="role-foot small">© 2025 ExpoLink • Developed by <b>Aplus System</b></footer>
+  </section>
+</main>
+
+  <!-- 浮動掃描 FAB -->
+  <button id="scanFab" class="fab" aria-label="掃描">
+    <span class="i i-scan"></span>
+  </button>
+
+  <!-- 掃描 Overlay（UI 模擬，可日後換原生/Capacitor） -->
+  <section id="scanner" class="scanner" aria-hidden="true">
+    <div class="scanner-wrap">
+      <div class="scanner-top">
+        <div class="title"><span class="i i-scan"></span> 掃描入場 / 兌換</div>
+        <button id="closeScanner" class="icon-btn"><span class="i i-down"></span></button>
+      </div>
+
+      <!-- 相機畫面區（先用背景 + 動畫線） -->
+      <div class="cam glass">
+        <div class="frame">
+          <div class="corner tl"></div><div class="corner tr"></div>
+          <div class="corner bl"></div><div class="corner br"></div>
+          <div class="laser"></div>
+        </div>
+        <div class="hint">將 QR / 條碼置於框內</div>
+      </div>
+
+      <!-- 控制列 -->
+      <div class="scan-ctr">
+        <button id="btnStartScan" class="btn btn-primary"><span class="i i-play"></span> 開始掃描</button>
+        <button id="btnMockHit" class="btn btn-outline"><span class="i i-check"></span> 模擬識別</button>
+        <button id="btnTorch" class="icon-btn"><span class="i i-bulb"></span></button>
+      </div>
+
+      <!-- 結果 -->
+      <div id="scanResult" class="scan-result" aria-live="polite"></div>
+    </div>
+  </section>
+
+
+
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div>© 2025 ExpoLink • <a href="#contact">Contact</a></div>
+  </footer>
+
+  <div class="safe-bottom"></div>
+
+
+ <script src="js/role.js"></script>
+ <script src="js/account.js"></script>
+  <script src="js/app.js"></script>
+	
+<script>Account.init();</script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+{
+  "hero": {
+    "title": "Tech Expo 2025",
+    "subtitle": "Innovate · Connect · Lead",
+    "img": "https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=1920&auto=format&fit=crop",
+    "cta": [
+      { "text": "立即報名", "link": "#register", "primary": true },
+      { "text": "了解更多", "link": "#about" }
+    ]
+  },
+  "info": {
+    "date": "2025-11-20 ~ 2025-11-24",
+    "venue": "台北南港展覽館",
+    "organizer": "Innovate Group"
+  },
+  "actions": [
+    { "text": "會員中心", "link": "#account" },
+    { "text": "交通資訊", "link": "#transport" },
+    { "text": "參展品牌", "link": "#brands" }
+  ],
+  "powered": {
+    "text": "此展會網站由 ExpoLink 提供",
+    "cta": { "text": "了解模板", "link": "https://expolink.app" }
+  },
+
+  "ecard": {
+    "name": "Andy Lin",
+    "title": "Exhibition Director",
+    "org": "ExpoLink",
+    "phone": "+886-912-345-678",
+    "email": "andy@expolink.app",
+    "site": "https://expolink.app",
+    "address": "台北市信義區市府路45號",
+    "logo": "https://your.cdn/logo.png",
+    "qr": "https://your.cdn/ecard-qr.png",
+    "back": {
+      "title": "Tech Expo 2025",
+      "subtitle": "三大亮點",
+      "bullets": [
+        "AI + XR 沉浸式舞台展示",
+        "200+ 參展品牌、10,000+ 參觀者",
+        "主論壇 / 新創路演 / 交流酒會"
+      ],
+      "mapImg": "https://your.cdn/venue-mini.png",
+      "mapUrl": "https://maps.google.com/?q=台北南港展覽館",
+      "links": [
+        { "text": "官方網站", "url": "https://expo.example.com" },
+        { "text": "票務系統", "url": "https://tickets.example.com" }
+      ]
+    }
+  },
+"exhibitors": [
+  {
+    "name": "Nova Robotics",
+    "logo": "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?w=512&auto=format&fit=crop",
+    "category": "Robotics",
+    "booth": "A12",
+    "link": "https://example.com/nova",
+    "contact": "mailto:hello@nova.com"
+  },
+  {
+    "name": "Quanta Foods",
+    "logo": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=512&auto=format&fit=crop",
+    "category": "Food Tech",
+    "booth": "B05",
+    "link": "https://example.com/quanta"
+  },
+  {
+    "name": "Lumen Optics",
+    "logo": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=512&auto=format&fit=crop",
+    "category": "Optics",
+    "booth": "C21"
+  },
+  {
+    "name": "Atlas Wearables",
+    "logo": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=512&auto=format&fit=crop",
+    "category": "Wearables",
+    "booth": "D08",
+    "link": "https://example.com/atlas",
+    "contact": "mailto:sales@atlas.com"
+  },
+  {
+    "name": "Helio Energy",
+    "logo": "https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=512&auto=format&fit=crop",
+    "category": "Energy",
+    "booth": "E17"
+  },
+  {
+    "name": "BlueComms",
+    "logo": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=512&auto=format&fit=crop",
+    "category": "Networking",
+    "booth": "F03",
+    "contact": "mailto:info@bluecomms.io"
+  }
+],
+"contact": {
+  "email": "hello@expolink.app",
+  "phone": "+886-2-1234-5678",
+  "address": "台北市南港區經貿二路66號",
+  "mapUrl": "https://maps.google.com/?q=台北南港展覽館",
+  "endpoint": "" 
+},
+"transport": {
+  "venueName": "台北南港展覽館 1 館",
+  "address": "台北市南港區經貿二路1號",
+  "mapUrl": "https://maps.google.com/?q=台北南港展覽館1館",
+  "embedUrl": "https://www.google.com/maps/embed?pb=!1m18!...",
+  "mapImage": "https://your.cdn/map.png",
+  "modes": {
+    "metro": {
+      "lines": [
+        { "line": "板南線 (BL)", "station": "南港展覽館站", "exit": "1號", "walk": "約 3 分鐘" },
+        { "line": "文湖線 (BR)", "station": "南港展覽館站", "exit": "5號", "walk": "約 5 分鐘" }
+      ],
+      "note": "展期尖峰時段出站人潮較多，建議提前 10–15 分鐘。"
+    },
+    "bus": {
+      "routes": [
+        { "no": "藍22", "stop": "南港展覽館(經貿二路)", "freq": "8–12 分" },
+        { "no": "284", "stop": "南港行政中心(南港路一段)", "freq": "10–15 分" }
+      ],
+      "note": "請依臺北市公車動態資訊為準。"
+    },
+    "drive": {
+      "routes": [
+        "國道1號 → 環東大道 → 交流道出口 → 經貿二路直行至會場。",
+        "國道3號 → 南港聯絡道 → 右轉經貿二路。"
+      ]
+    },
+    "parking": {
+      "lots": [
+        { "name": "一館地下停車場", "type": "小客車", "fee": "每小時 30 元", "spaces": "800", "open": "07:00–23:00" },
+        { "name": "週邊停車場 A", "type": "機車", "fee": "每次 20 元", "spaces": "150", "open": "24 小時" }
+      ],
+      "note": "展期尖峰時段車位緊張，建議改搭大眾運輸。"
+    },
+    "shuttle": {
+      "times": [
+        { "from": "南港車站", "to": "展館大門", "interval": "10–15 分", "first": "08:30", "last": "18:30" }
+      ],
+      "stops": ["南港車站東出口 3 號站牌", "展館大門口臨停區"],
+      "note": "僅主展期提供，請留意官網公告。"
+    },
+    "taxi": {
+      "hints": [
+        "會場外設有計程車排班區，請依秩序排隊上車。",
+        "可使用 55688 / Uber / Bolt 等叫車服務。"
+      ]
+    },
+    "bike": {
+      "spots": [
+        { "name": "YouBike 南港展覽館站", "distance": "步行 2 分", "spaces": "40" },
+        { "name": "經貿二路停車格", "distance": "步行 3 分", "spaces": "20" }
+      ],
+      "note": "騎乘請注意車潮與行人，依規定停放。"
+    }
+  },
+  "tips": [
+    "展期建議改搭捷運以節省時間。",
+    "請留意即時交通資訊與管制公告。"
+  ]
+}
+
+}
