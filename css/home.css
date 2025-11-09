@@ -289,3 +289,27 @@
     margin-top: 8px;
   }
 }
+
+/* ===== 活動圖片槽 ===== */
+.event-photo{
+  width:min(1000px, 92%);
+  margin: 6px auto 10px;
+  padding: 0;            /* 玻璃外框但不加內邊距 */
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.event-photo img{
+  width:100%; height:auto;
+  aspect-ratio: 16/9;        /* 手機也能維持比例 */
+  object-fit: cover; display:block;
+}
+.event-cap{
+  padding: 8px 12px 10px;
+  font-size:.92rem;
+  border-top:1px solid var(--line);
+  background: rgba(255,255,255,.03);
+}
+
+/* 與 info-cards 間距更緊湊 */
+.event-photo + .info-cards{ margin-top: 8px; }
