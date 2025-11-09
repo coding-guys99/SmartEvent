@@ -44,6 +44,31 @@
         actions.appendChild(a);
       });
     }
+    
+    // --- Event photo (above info cards) ---
+const photoWrap = document.getElementById('eventPhoto');
+const photoImg  = document.getElementById('eventPhotoImg');
+const photoCap  = document.getElementById('eventPhotoCap');
+
+// 優先順序：HOME.info.photo → HOME.hero.img
+const photoSrc = (HOME?.info?.photo) || (HOME?.hero?.img) || '';
+const caption  = HOME?.info?.photoCaption || '';
+
+if (photoWrap && photoImg) {
+  if (photoSrc) {
+    photoImg.src = photoSrc;
+    photoWrap.hidden = false;
+    photoWrap.setAttribute('aria-hidden','false');
+    if (photoCap) {
+      photoCap.textContent = caption || '';
+      photoCap.style.display = caption ? '' : 'none';
+    }
+  } else {
+    // 沒有圖片就保持隱藏
+    photoWrap.hidden = true;
+    photoWrap.setAttribute('aria-hidden','true');
+  }
+}
 
     // --- Info ---
     const info = HOME.info || {};
