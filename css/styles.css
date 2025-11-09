@@ -116,3 +116,31 @@ body.app{
 .field .err{display:none; color:var(--danger); font-size:.85rem;}
 .field.invalid input, .field.invalid textarea{border-color: var(--danger);}
 .field.invalid .err{display:block;}
+
+/* 關閉時不截滑鼠 */
+[aria-hidden="true"],
+[hidden],
+.is-hidden {
+  pointer-events: none !important;
+}
+
+/* 抽屜/遮罩預設不吃事件（開啟時再覆寫） */
+.drawer,
+.drawer-backdrop,
+.modal,
+.modal-backdrop,
+.page-mask,
+.overlay {
+  pointer-events: none;
+}
+
+.drawer.is-open,
+.modal.is-open,
+.overlay.is-active {
+  pointer-events: auto;
+}
+
+/* 若你用 checkbox/label 切換抽屜：未勾選時，背景 label 不吃事件 */
+.nav-toggle:not(:checked) + label.nav-backdrop {
+  pointer-events: none;
+}
