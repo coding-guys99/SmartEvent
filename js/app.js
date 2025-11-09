@@ -12,7 +12,7 @@
   if (window.Brands)    Brands.init(HOME);
   if (window.Contact)   Contact.init(HOME);
   if (window.Transport) Transport.init(HOME);
-  if (window.AccountUI) AccountUI.init?.();
+  if (window.Account) AccountUI.init?.();
 
   // 先讓 Role 做首度守門（可能導到 #role）
   if (window.Role) Role.init();
