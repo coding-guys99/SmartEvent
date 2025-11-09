@@ -52,6 +52,7 @@
     const info    = document.getElementById('expoInfo');
     const powered = document.querySelector('.powered');
     const fab     = document.getElementById('scanFab');
+    const eventPhoto= document.getElementById('eventPhoto'); // ← 新增這行
 
     // 子頁
     const ePage = document.getElementById('ecardPage');
@@ -74,6 +75,7 @@
       [ePage,bPage,cPage,tPage,aPage,abPage].forEach(p => setVisible(p, false));
       fab && (fab.style.display = '');
       document.title = 'ExpoLink';
+      if (eventPhoto) eventPhoto.hidden = false;
     };
     const showOnly = (pageEl, title) => {
       hero && (hero.style.display = 'none');
@@ -83,6 +85,7 @@
       [ePage,bPage,cPage,tPage,aPage,abPage].forEach(p => setVisible(p, p === pageEl));
       fab && (fab.style.display = 'none');
       if (!isAccount) document.title = title;
+      if (eventPhoto) eventPhoto.hidden = true;
     };
 
     if (isAccount && aPage) { showOnly(aPage, '會員中心 | ExpoLink'); return; }
