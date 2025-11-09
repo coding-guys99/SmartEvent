@@ -1,132 +1,100 @@
-/* ============================
-   E-Card — refined (drop-in)
-   只針對 #ecardPage 與其子元素
-   ============================ */
+/* ===== E-Card — Soft-Air（更柔和層級） ===== */
 
-/* 版心 & 工具列 */
-#ecardPage{ padding:16px 12px 90px; display:grid; place-items:center; }
-#ecardPage .ecard-wrap{ display:flex; flex-direction:column; gap:14px; align-items:center; width:100%; }
-
-/* 上方操作列（下載 / 分享 / 翻面） */
-#ecardPage .ecard-ops{
-  position: sticky; top: calc(56px + env(safe-area-inset-top) + 6px); z-index: 20;
-  display: flex; justify-content: center; gap: 8px; padding: 10px 8px 12px;
-  background: linear-gradient(180deg, rgba(11,15,26,.85), rgba(11,15,26,.60));
-  backdrop-filter: blur(10px); border-bottom: 1px solid var(--line);
-  border-radius: 12px;
-}
-#ecardPage .ecard-ops .btn{ appearance:none; border:1px solid var(--line); border-radius:999px; padding:10px 14px; font-weight:700; }
-#ecardPage .ecard-ops .btn.btn-primary{
-  color:#08101d; border-color:transparent;
-  background:linear-gradient(90deg, var(--primary-2), var(--primary));
-  box-shadow:0 6px 18px rgba(0,255,224,.22);
-}
-
-/* 翻面容器 */
-#ecardPage .ec-flip{ perspective:1200px; width:min(94vw, 720px); }
-#ecardPage .ec-inner{ position:relative; width:100%; transform-style:preserve-3d; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
-#ecardPage .ec-inner.is-back{ transform: rotateY(180deg); }
-#ecardPage .ec-front, #ecardPage .ec-back{ position:absolute; inset:0; backface-visibility:hidden; }
-#ecardPage .ec-back{ transform: rotateY(180deg); }
-
-/* 名片底：更立體的玻璃 + 漸層描邊 + 細噪點 */
+/* 卡面：更薄的玻璃；去強烈描邊，保留柔光與陰影層 */
 #ecardPage .ecard-card{
-  position:relative; aspect-ratio: 85.6 / 54; width:min(94vw, 720px);
-  border-radius:22px; padding:18px 18px 16px; overflow:hidden;
   background:
-    radial-gradient(120% 120% at 0% 0%, rgba(0,255,224,.12), transparent 55%),
-    radial-gradient(120% 120% at 100% 0%, rgba(123,97,255,.16), transparent 55%),
-    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-  border:1px solid rgba(255,255,255,.18);
-  box-shadow: 0 20px 50px rgba(0,0,0,.45);
+    radial-gradient(120% 120% at 30% 0%, rgba(0,255,224,.10), transparent 55%),
+    radial-gradient(120% 120% at 100% 10%, rgba(123,97,255,.12), transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:
+    0 12px 34px rgba(0,0,0,.42),
+    inset 0 1px 0 rgba(255,255,255,.06);
 }
-/* 漸層描邊（同時支援標準與 webkit 的 mask） */
+/* 漸層描邊改為很淡、只在 hover 微亮 */
 #ecardPage .ecard-card::before{
-  content:""; position:absolute; inset:0; border-radius:22px; padding:1px;
-  background: linear-gradient(135deg, rgba(0,255,224,.38), rgba(123,97,255,.38));
-  /* 標準 + webkit（順序要這樣） */
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  -webkit-mask-composite: xor;
-  pointer-events:none;
+  opacity:.0; /* 預設看不到 */
+  transition: opacity .25s ease;
 }
-#ecardPage .ecard-card::after{
-  content:""; position:absolute; inset:0; opacity:.10; pointer-events:none;
-  background-image: url("data:image/svg+xml;utf8,\
-  <svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'>\
-    <filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/></filter>\
-    <rect width='100%' height='100%' filter='url(%23n)' opacity='.25'/>\
-  </svg>");
-  mix-blend-mode: soft-light;
-}
+#ecardPage .ecard-card:hover::before{ opacity:.35; }
 
-/* 左上／右上區塊：logo／QR */
-#ecardPage .ec-logo{ position:absolute; left:14px; top:12px; display:flex; align-items:center; gap:8px; }
-#ecardPage .ec-logo img{ width:46px; height:46px; object-fit:contain; display:none; }
-#ecardPage .ec-mono{
-  width:46px; height:46px; border-radius:14px; display:grid; place-items:center;
-  color:#08101d; font-weight:800;
-  background:linear-gradient(135deg, var(--primary), var(--primary-2));
-  box-shadow: 0 10px 30px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.08) inset;
-}
-#ecardPage .ec-qr{ position:absolute; right:14px; top:10px; }
-#ecardPage .ec-qr img{ width:70px; height:70px; display:none; border-radius:12px; border:1px solid var(--line); }
-#ecardPage .ec-qr-ph{ width:70px; height:70px; display:grid; place-items:center; color:var(--muted);
-  border:1px dashed var(--line); border-radius:12px; font-weight:700; }
+/* LOGO/QR：縮一點，位置更靠內，避免壓迫 */
+#ecardPage .ec-logo{ left:16px; top:14px; }
+#ecardPage .ec-mono{ width:40px; height:40px; border-radius:12px; }
+#ecardPage .ec-qr{ right:16px; top:12px; }
+#ecardPage .ec-qr img, #ecardPage .ec-qr-ph{ width:60px; height:60px; }
 
-/* 中央：姓名 / 職稱 / 公司（強化層次與對齊） */
+/* 中央資訊：用字級/字重/透明度做層級，不用粗框線 */
 #ecardPage .ec-who{
-  position:absolute; left:18px; right:18px; top:36%; transform: translateY(-36%);
-  text-align:center;
+  top:38%; transform: translateY(-38%);
 }
 #ecardPage .ec-who h2{
-  margin:0; font-size:clamp(18px, 4.8vw, 34px);
-  background: linear-gradient(90deg, var(--primary), var(--primary-2));
-  -webkit-background-clip:text; background-clip:text; color:transparent; letter-spacing:.2px; font-weight:800;
+  font-size:clamp(20px, 5.2vw, 36px);
+  letter-spacing:.1px;
+  filter: drop-shadow(0 6px 18px rgba(0,0,0,.35));
 }
-#ecardPage .ec-who p{ margin:.25rem 0 0; opacity:.92; }
-#ecardPage .ec-who .muted{ opacity:.85; }
+#ecardPage .ec-who p{
+  margin:.5rem 0 0;
+  font-weight:600;
+  opacity:.88;
+}
+/* 公司行再淡一階，視覺節奏更柔和 */
+#ecardPage #ecOrg{ opacity:.72; }
 
-/* 下方：聯絡列（更像可點擊的膠囊） */
+/* 下方連絡列：去邊框、改成「霧面膠囊」、分隔靠間距 */
 #ecardPage .ec-contact{
-  position:absolute; left:18px; right:18px; bottom:14px;
-  display:grid; grid-template-columns:1fr 1fr; gap:10px 16px;
-  padding-top:12px; border-top:1px dashed rgba(255,255,255,.16);
-  font-size:clamp(12px, 2.8vw, 14px);
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding-top:14px; gap:12px 14px;
 }
 #ecardPage .ec-contact .row{
-  display:flex; align-items:center; gap:8px; min-width:0;
-  background: rgba(255,255,255,.05);
-  border:1px solid var(--line); border-radius: 12px; min-height:40px;
-  padding: 8px 10px;
-  transition: border-color .15s ease, box-shadow .15s ease, transform .06s ease;
+  background: rgba(255,255,255,.045);
+  border: 0;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
+  border-radius: 14px; min-height:42px;
+  transition: transform .08s ease, box-shadow .2s ease, background .2s ease;
 }
-#ecardPage .ec-contact .row:active{ transform: translateY(1px); }
-#ecardPage .ec-contact a{
-  color:var(--txt); text-decoration:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
-}
-#ecardPage .ec-contact a:hover{ color:var(--primary); }
-@media (max-width:520px){ #ecardPage .ec-contact{ grid-template-columns:1fr; gap:8px; } }
-
-/* 反面卡：資訊編排更乾淨 */
-#ecardPage .ec-back-wrap{ position:absolute; inset:0; padding:18px 18px 14px; display:flex; flex-direction:column; }
-#ecardPage .ec-back-head h3{ margin:.2rem 0 .3rem; font-weight:800; letter-spacing:.3px; }
-#ecardPage .ec-bullets{ margin:10px 0; padding-left:18px; }
-#ecardPage .ec-bullets li{ margin:.2rem 0; opacity:.95; }
-#ecardPage .ec-map{ margin-top:8px; display:none; gap:10px; align-items:center; }
-#ecardPage .ec-map img{ max-height:80px; border-radius:10px; border:1px solid var(--line); display:block; }
-#ecardPage .ec-back-links{ margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; }
-#ecardPage .ec-back-links a{ color:var(--txt); text-decoration:none; border-bottom:1px dashed var(--line); }
-#ecardPage .ec-back-links a:hover{ color:var(--primary); border-color:var(--primary); }
-
-/* 小互動：hover 高亮（僅支援可精準指標的裝置） */
 @media (hover:hover){
   #ecardPage .ec-contact .row:hover{
-    border-color: rgba(0,255,224,.45);
-    box-shadow: 0 0 0 1px rgba(0,255,224,.18) inset;
+    background: rgba(255,255,255,.06);
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,.08),
+      0 6px 18px rgba(0,0,0,.22);
+  }
+}
+#ecardPage .ec-contact .i{ opacity:.85; }
+#ecardPage .ec-contact a{ opacity:.92; }
+#ecardPage .ec-contact a:hover{ opacity:1; }
+
+/* 反面內容：改用柔性分隔與更大行高 */
+#ecardPage .ec-back-wrap{ padding:20px 18px 16px; }
+#ecardPage .ec-back-head h3{ letter-spacing:.2px; }
+#ecardPage .ec-bullets{ margin:12px 0 6px; }
+#ecardPage .ec-bullets li{ line-height:1.65; opacity:.92; }
+
+/* 小動效：整張卡微浮起；接觸裝置不誇張 */
+@media (hover:hover){
+  #ecardPage .ecard-card{ transition: transform .18s ease, box-shadow .18s ease; }
+  #ecardPage .ecard-card:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 18px 46px rgba(0,0,0,.48), inset 0 1px 0 rgba(255,255,255,.06);
   }
 }
 
-/* 名片下方的操作列與頁腳之間的間距 */
-#ecardPage .ecard-wrap + .footer{ margin-top: 20px; }
+/* 操作列：陰影更柔、按鈕不要太「硬亮」 */
+#ecardPage .ecard-ops{
+  background: linear-gradient(180deg, rgba(11,15,26,.80), rgba(11,15,26,.55));
+  border:1px solid rgba(255,255,255,.06);
+}
+#ecardPage .ecard-ops .btn{
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.04);
+}
+#ecardPage .ecard-ops .btn.btn-primary{
+  box-shadow: 0 8px 22px rgba(0,255,224,.18);
+}
+
+/* RWD：窄螢幕間距更鬆、資訊不擠 */
+@media (max-width:520px){
+  #ecardPage .ec-contact{ grid-template-columns:1fr; gap:10px; }
+  #ecardPage .ecard-card{ padding:16px 14px 14px; }
+}
