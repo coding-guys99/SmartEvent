@@ -258,3 +258,109 @@
   outline-offset:2px;
   border-radius:12px;
 }
+
+/* ============= 扁平列表模式（減卡片疲勞） ============= */
+#accountPage.list-mode .acct-sec{ gap:16px; }
+
+/* 頭像卡保留玻璃感，但更扁平 */
+#accountPage.list-mode .acct-hero{
+  border-radius:14px;
+  background: rgba(255,255,255,.04);
+  border:1px solid var(--line);
+  box-shadow:none;
+}
+
+/* 功能區：改成「清單」而不是卡片格子 */
+#accountPage.list-mode .acct-grid{
+  display:block;               /* 取消 3 欄格子 */
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  background: rgba(255,255,255,.03);
+}
+
+/* 單列項目（原本的 feature-card） */
+#accountPage.list-mode .feature-card{
+  display:flex; align-items:center; gap:12px;
+  padding:14px 12px; text-decoration:none; color:var(--txt);
+  border:none; border-radius:0; background:transparent;
+  box-shadow:none; transition:background .12s ease;
+  outline:0;
+}
+#accountPage.list-mode .feature-card + .feature-card{
+  border-top:1px solid var(--line);   /* 細分隔線 */
+}
+#accountPage.list-mode .feature-card:hover{
+  background: rgba(255,255,255,.04);
+}
+#accountPage.list-mode .fc-ico{
+  width:36px;height:36px; border-radius:10px;
+  display:grid; place-items:center;
+  background: rgba(255,255,255,.06);
+  border:1px solid var(--line);
+  flex:0 0 36px;
+}
+#accountPage.list-mode .fc-title{
+  font-weight:800; letter-spacing:.2px;
+}
+#accountPage.list-mode .fc-sub{
+  color:var(--muted); font-size:.92rem;
+}
+#accountPage.list-mode .feature-card .fc-badge{
+  margin-left:auto; align-self:center;
+  font-size:.78rem; padding:2px 8px; border-radius:999px;
+  color:#08101d; background:linear-gradient(90deg,var(--primary-2),var(--primary));
+}
+
+/* 次級頁：卡片→段落，減少邊框噪音 */
+#accountPage.list-mode .sub-card{
+  background: transparent;
+  border:none;
+  padding:0;
+}
+#accountPage.list-mode .sub-card h4{
+  margin:.2rem 0 .5rem;
+  font-weight:800; letter-spacing:.3px;
+}
+#accountPage.list-mode .sub-card + .sub-card{
+  margin-top:8px; padding-top:12px;
+  border-top:1px dashed var(--line);  /* 輕分隔 */
+}
+
+/* 表單：扁平化 */
+#accountPage.list-mode .field input,
+#accountPage.list-mode .field textarea,
+#accountPage.list-mode .field select{
+  background: rgba(255,255,255,.03);
+  border:1px solid var(--line);
+}
+#accountPage.list-mode .row.two.compact{ gap:10px; }
+
+/* 名片預覽 & QR：保留卡片視覺，作為視覺重點 */
+#accountPage.list-mode .ecard-mini,
+#accountPage.list-mode .qr-card{
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+}
+
+/* 標題列與底部 CTA：更輕、佔高更小 */
+#accountPage.list-mode .sub-head{
+  padding:8px 10px;
+  background: rgba(11,15,26,.55);
+}
+#accountPage.list-mode .sheet-cta{
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+  backdrop-filter: blur(6px);
+}
+
+/* 交換名片列表：密度微調 */
+#accountPage.list-mode .ex-item{ padding:10px; background:transparent; border:1px solid var(--line); }
+#accountPage.list-mode .ex-item + .ex-item{ margin-top:8px; }
+
+/* 偏好切換：像設定清單 */
+#accountPage.list-mode .toggle{
+  display:flex; align-items:center; gap:10px;
+  padding:10px 0; border-bottom:1px solid var(--line);
+}
+#accountPage.list-mode .toggle:last-child{ border-bottom:none; }
