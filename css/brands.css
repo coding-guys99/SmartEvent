@@ -1,63 +1,132 @@
-/* ==============================
-   Brands / Exhibitors (#brandsPage)
-   ============================== */
-#brandsPage .brands-sec{ max-width:1100px; margin:8px auto 24px; padding:0 12px; }
-#brandsPage .brands-head{
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
-  margin:8px 0 10px;
-}
-#brandsPage .brands-head h2{ margin:0; font-size:1.2rem; letter-spacing:.3px; }
+/* ============ Brands Page – Polished ============ */
 
-#brandsPage .tools{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-#brandsPage .search{
-  position:relative; display:flex; align-items:center;
-  background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:12px;
+/* 區塊頭：讓工具列黏在上方 */
+.brands-sec{ max-width:1100px; margin:8px auto 24px; padding:0 12px; }
+.brands-head{
+  position: sticky; top: calc(56px + env(safe-area-inset-top));
+  z-index: 20;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:8px 6px; margin:0 0 8px;
+  background: linear-gradient(180deg, rgba(11,15,26,.85), rgba(11,15,26,.65));
+  backdrop-filter: blur(10px);
+  border:1px solid var(--line); border-radius:14px;
 }
-#brandsPage .search input{ all:unset; padding:10px 36px 10px 12px; min-width:200px; color:var(--txt); }
-#brandsPage .search .icon-btn{
-  width:28px; height:28px; border-radius:8px; margin-right:6px;
-  display:grid; place-items:center; border:1px solid transparent; background:transparent; color:var(--muted);
+.brands-head h2{ margin:0; font-size:1.1rem; letter-spacing:.3px; }
+
+/* 搜尋框（帶清除） */
+.search{
+  flex:1; min-width:0; position:relative; display:flex; align-items:center;
+  background: rgba(255,255,255,.04);
+  border:1px solid var(--line); border-radius:12px; padding-right:34px;
 }
-#brandsPage .search .icon-btn:hover{ border-color:var(--line); color:var(--txt); }
-#brandsPage .sort{ display:flex; align-items:center; gap:8px; color:var(--muted); }
-#brandsPage .sort label{ font-size:.9rem; }
-#brandsPage .sort select{
-  background: rgba(255,255,255,.04); color: var(--txt);
-  border:1px solid var(--line); border-radius:10px; padding:8px 10px;
+.search input{
+  all:unset; width:100%; padding:10px 12px; color:var(--txt);
+}
+.search input::placeholder{ color: color-mix(in oklab, var(--muted) 85%, white 0%); }
+.search .icon-btn{
+  position:absolute; right:6px; width:28px; height:28px; border-radius:8px;
+  display:grid; place-items:center; color:var(--muted); border:1px solid transparent; background:transparent;
+}
+.search:focus-within{ box-shadow: 0 0 0 2px rgba(0,255,224,.14) inset; border-color: var(--primary); }
+
+/* Sort 下拉 */
+.sort{ display:flex; align-items:center; gap:8px; white-space:nowrap; }
+.sort select{
+  appearance:none; padding:8px 10px; border:1px solid var(--line);
+  border-radius:10px; background: rgba(255,255,255,.04); color:var(--txt);
 }
 
-/* 類別 chips */
-#brandsPage .chips-row{ display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 12px; }
-#brandsPage .chips-row .chip{
-  border:1px solid var(--line); background: rgba(255,255,255,.04);
-  color: var(--txt); padding:8px 12px; border-radius:999px; font-size:.92rem; cursor:pointer;
+/* 類別 chips：可橫向滑動 + 兩側漸層 */
+.chips-row{
+  position:relative; display:flex; gap:8px; overflow:auto; -webkit-overflow-scrolling:touch;
+  padding:10px 6px; margin:10px 0 12px;
+  scrollbar-width:none;
 }
-#brandsPage .chips-row .chip.active{
-  color:#08101d; border-color: transparent;
+.chips-row::-webkit-scrollbar{ display:none; }
+.chips-row::before, .chips-row::after{
+  content:""; position:absolute; top:0; bottom:0; width:24px; pointer-events:none;
+}
+.chips-row::before{ left:-1px; background: linear-gradient(90deg, var(--bg) 50%, transparent); }
+.chips-row::after{ right:-1px; background: linear-gradient(270deg, var(--bg) 50%, transparent); }
+.chips-row .chip{
+  padding:9px 12px; border-radius:999px; font-size:.92rem; cursor:pointer;
+  border:1px solid var(--line); background: rgba(255,255,255,.04); color:var(--txt);
+  transition: transform .08s ease, border-color .12s ease, box-shadow .12s ease;
+  white-space:nowrap;
+}
+.chips-row .chip:active{ transform: translateY(1px); }
+.chips-row .chip.active{
+  color:#08101d; border-color:transparent;
   background: linear-gradient(90deg, var(--primary-2), var(--primary));
-  box-shadow: 0 6px 18px rgba(0,255,224,.18);
+  box-shadow:0 6px 14px rgba(0,255,224,.18);
 }
 
-/* 卡片網格 */
-#brandsPage .brand-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; }
-@media (min-width:560px){ #brandsPage .brand-grid{ grid-template-columns: repeat(3, 1fr); } }
-@media (min-width:900px){ #brandsPage .brand-grid{ grid-template-columns: repeat(4, 1fr); } }
+/* 卡片格：更大的間距與呼吸感 */
+.brand-grid{
+  display:grid; gap:14px;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width:560px){ .brand-grid{ gap:14px; grid-template-columns: repeat(3, 1fr); } }
+@media (min-width:900px){ .brand-grid{ grid-template-columns: repeat(4, 1fr); } }
 
-#brandsPage .brand-card{
-  background: var(--card); border:1px solid var(--line); border-radius:14px;
-  overflow:hidden; display:flex; flex-direction:column;
+/* 單卡：陰影柔和、邊框更淡 */
+.brand-card{
+  display:flex; flex-direction:column; overflow:hidden;
+  border:1px solid color-mix(in oklab, var(--line) 88%, transparent 12%);
+  border-radius:16px; background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  transition: transform .12s ease, box-shadow .16s ease, border-color .12s ease;
+  box-shadow: 0 10px 26px rgba(0,0,0,.32);
 }
-#brandsPage .brand-thumb{
-  aspect-ratio: 1 / 1; width:100%; display:grid; place-items:center;
-  background: rgba(255,255,255,.03); border-bottom:1px solid var(--line);
+.brand-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(0,0,0,.38);
+  border-color: rgba(0,255,224,.22);
 }
-#brandsPage .brand-thumb img{ width:70%; height:70%; object-fit:contain; filter: drop-shadow(0 6px 16px rgba(0,0,0,.35)); }
-#brandsPage .brand-body{ padding:10px 12px; display:grid; gap:6px; }
-#brandsPage .brand-name{ font-weight:700; letter-spacing:.2px; }
-#brandsPage .brand-meta{ font-size:.86rem; color:var(--muted); display:flex; gap:10px; flex-wrap:wrap; }
-#brandsPage .brand-cta{ margin-top:6px; display:flex; gap:8px; }
-#brandsPage .brand-cta a{
+
+/* 縮圖：4:3，留白更一致 */
+.brand-thumb{
+  aspect-ratio: 4 / 3; display:grid; place-items:center;
+  background: rgba(255,255,255,.03);
+  border-bottom:1px solid var(--line);
+}
+.brand-thumb img{
+  max-width:88%; max-height:88%; object-fit:contain;
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,.35));
+}
+
+/* 內文：標題更醒目、Meta 更細 */
+.brand-body{ padding:12px; display:grid; gap:8px; }
+.brand-name{ font-weight:800; letter-spacing:.25px; line-height:1.25; }
+.brand-meta{
+  display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+  font-size:.88rem; color:var(--muted);
+}
+.brand-meta .tag{
+  padding:4px 8px; border-radius:999px; font-size:.78rem;
+  border:1px solid var(--line); background:rgba(255,255,255,.04);
+}
+
+/* 行動列：合併視覺，觸控更好按 */
+.brand-cta{ display:flex; gap:8px; }
+.brand-cta a{
   flex:1; text-align:center; text-decoration:none; color:var(--txt);
-  border:1px solid var(--line); border-radius:10px; padding:8px 10px; background: rgba(255,255,255,.03);
+  border:1px solid var(--line); border-radius:12px; padding:10px 0;
+  background: rgba(255,255,255,.03); transition: border-color .12s ease, transform .06s ease;
 }
-#brandsPage .brand-cta a:hover{ border-color: var(--primary); }
+.brand-cta a:hover{ border-color: var(--primary); }
+.brand-cta a:active{ transform: translateY(1px); }
+
+/* 空狀態 */
+.brand-empty{
+  grid-column: 1/-1; text-align:center; padding:24px 12px;
+  border:1px dashed var(--line); border-radius:14px; color:var(--muted);
+  background: rgba(255,255,255,.03);
+}
+
+/* Skeleton（若要做載入過場） */
+.brand-skel{
+  border:1px solid var(--line); border-radius:16px; overflow:hidden;
+  background: rgba(255,255,255,.03); animation: sk 1.2s ease-in-out infinite;
+}
+.brand-skel .ph{ height:0; padding-bottom:75%; background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.12), rgba(255,255,255,.06)); background-size: 200% 100%; }
+@keyframes sk{ 0%{ filter:brightness(1); } 50%{ filter:brightness(1.08); } 100%{ filter:brightness(1); } }
