@@ -98,3 +98,80 @@
   #ecardPage .ec-contact{ grid-template-columns:1fr; gap:10px; }
   #ecardPage .ecard-card{ padding:16px 14px 14px; }
 }
+
+/* ===== 名片尺寸：信用卡比例，行動裝置友善 ===== */
+.ecard-card.ecard-compact{
+  aspect-ratio: 85.6 / 54;
+  width: min(94vw, 720px);
+  border-radius: 22px;
+  padding: 18px 16px 16px;
+  background:
+    radial-gradient(120% 120% at 18% 0%, rgba(0,255,224,.10), transparent 55%),
+    radial-gradient(120% 120% at 100% 12%, rgba(123,97,255,.12), transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: 0 18px 46px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
+  position: relative; overflow: hidden;
+}
+
+/* 左上 Logo / Monogram */
+.ec-logo{ position:absolute; left:14px; top:12px; display:flex; align-items:center; gap:8px; }
+.ec-logo img{ width:44px; height:44px; object-fit:contain; display:none; }
+.ec-mono{ width:44px; height:44px; border-radius:12px; display:grid; place-items:center;
+  font-weight:800; color:#08101d; background:linear-gradient(135deg, var(--primary), var(--primary-2));
+  box-shadow: 0 8px 22px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.08);
+}
+
+/* 右上 QR */
+.ec-qr{ position:absolute; right:14px; top:10px; }
+.ec-qr img{ width:64px; height:64px; border-radius:12px; display:none; border:1px solid rgba(255,255,255,.16); }
+.ec-qr-ph{ width:64px; height:64px; display:grid; place-items:center; color:var(--muted);
+  border:1px dashed rgba(255,255,255,.22); border-radius:12px; font-weight:700; }
+
+/* 中央標題：公司名 → 人名 */
+.ec-head{
+  position:absolute; left:18px; right:18px; top:33%;
+  transform: translateY(-33%); text-align:center;
+}
+.ec-head .org{
+  font-weight:800; letter-spacing:.2px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-2));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  font-size: clamp(16px, 3.6vw, 24px);
+}
+.ec-head .name{
+  margin:.25rem 0 0;
+  font-size: clamp(20px, 5.2vw, 36px);
+  font-weight: 900; letter-spacing:.2px;
+  color: var(--txt);
+  filter: drop-shadow(0 6px 16px rgba(0,0,0,.35));
+}
+
+/* 連絡資訊（電話→地址→Email）單欄 */
+.ec-contact--onecol{
+  position:absolute; left:16px; right:16px; bottom:12px;
+  display:grid; gap:10px;
+  border-top:1px dashed rgba(255,255,255,.12); padding-top:12px;
+  font-size: clamp(12px, 2.8vw, 14px);
+}
+.ec-contact--onecol .row{
+  display:flex; align-items:center; gap:8px; min-height:40px;
+  background: rgba(255,255,255,.045);
+  border-radius: 12px; padding: 8px 10px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+}
+.ec-contact--onecol a{ color:var(--txt); text-decoration:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ec-contact--onecol .i{ opacity:.9; }
+
+/* 背面：公司 Bio */
+.ec-back-wrap{ position:absolute; inset:0; padding:18px 16px 14px; }
+.ec-back-head h3{ margin:.2rem 0 .2rem; font-weight:800; letter-spacing:.3px; }
+.ec-bullets{ margin:10px 0; padding-left:18px; }
+.ec-bullets li{ line-height:1.68; opacity:.95; }
+
+/* RWD 微調 */
+@media (max-width:520px){
+  .ecard-card.ecard-compact{ padding:16px 12px 14px; }
+  .ec-logo img, .ec-mono{ width:40px; height:40px; border-radius:12px; }
+  .ec-qr img, .ec-qr-ph{ width:58px; height:58px; }
+}
