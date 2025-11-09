@@ -1,123 +1,67 @@
-// js/role.js
-// ==========================================================
-// ExpoLink Role Selector 模組（Visitor / Exhibitor）
-// ==========================================================
-
-const Role = (() => {
+/* ==========================================================
+ * Role — 角色選擇（Visitor / Exhibitor）
+ * 規則：
+ *  - 未選角色 → 自動導到 #role，由 router 控畫面
+ *  - 點選角色 → 存 localStorage 並回首頁
+ * ========================================================== */
+(function () {
   const KEY = 'expo.role'; // 'visitor' | 'exhibitor'
 
-  const el = {
-    page: document.getElementById('rolePage'),
-    cards: null,
-    skip: null,
-  };
-
-  function get() {
-    return localStorage.getItem(KEY) || '';
-  }
-  function set(v) {
-    localStorage.setItem(KEY, v);
-  }
-  function clear() {
-    localStorage.removeItem(KEY);
-  }
+  function get()  { return localStorage.getItem(KEY) || ''; }
+  function set(v) { localStorage.setItem(KEY, v); }
+  function clear(){ localStorage.removeItem(KEY); }
 
   function show() {
-    el.page?.removeAttribute('hidden');
-    el.page?.setAttribute('aria-hidden', 'false');
+    const p = document.getElementById('rolePage');
+    p?.removeAttribute('hidden');
+    p?.setAttribute('aria-hidden', 'false');
   }
   function hide() {
-    el.page?.setAttribute('hidden', 'true');
-    el.page?.setAttribute('aria-hidden', 'true');
+    const p = document.getElementById('rolePage');
+    p?.setAttribute('hidden', 'true');
+    p?.setAttribute('aria-hidden', 'true');
   }
 
   function go(role) {
+    if (!role) return;
     set(role);
-    if (role === 'visitor') {
-      location.hash = ''; // 回首頁
+    hide();                 // 先關掉畫面避免殘影
+    location.hash = '';     // 回首頁，讓 router 負責顯示
+    document.title = 'ExpoLink';
+  }
+
+  // 首次守門：無角色 → 導到 #role
+  function guard() {
+    const has = !!get();
+    if (!has) {
+      if ((location.hash || '') !== '#role') {
+        location.hash = '#role'; // 交給 router 顯示
+      } else {
+        show();
+      }
     } else {
-      location.hash = '#account'; // 去會員中心
+      hide();
     }
+    return !has;
   }
 
   function bind() {
-    el.cards = el.page?.querySelectorAll('.role-card');
-    el.skip = document.getElementById('roleSkip');
-
-    el.cards?.forEach((btn) =>
-      btn.addEventListener('click', () => {
-        const role = btn.getAttribute('data-role');
-        go(role);
-      })
-    );
-
-    el.skip?.addEventListener('click', (e) => {
-      e.preventDefault();
-      go('visitor');
+    const page = document.getElementById('rolePage');
+    page?.querySelectorAll('.role-card').forEach(btn => {
+      btn.addEventListener('click', () => go(btn.getAttribute('data-role')));
     });
+    const skip = document.getElementById('roleSkip');
+    skip?.addEventListener('click', (e) => { e.preventDefault(); go('visitor'); });
   }
 
-  // 首次開站守門：若無 role → 顯示角色頁
-  function guard() {
-    const role = get();
-    if (!role) {
-      show();
-      // 隱藏其他主要區塊
-      const ids = [
-        'hero',
-        'expoInfo',
-        'ecardPage',
-        'brandsPage',
-        'contactPage',
-        'transportPage',
-        'accountPage',
-      ];
-      const qa = document.querySelector('.quick-actions');
-      const powered = document.querySelector('.powered');
-      const fab = document.getElementById('scanFab');
-
-      const hideEl = (x) => {
-        if (!x) return;
-        if ('hidden' in x) {
-          x.hidden = true;
-          x.setAttribute('aria-hidden', 'true');
-        } else {
-          x.style.display = 'none';
-        }
-      };
-
-      ids.forEach((id) => hideEl(document.getElementById(id)));
-      qa && (qa.style.display = 'none');
-      powered && (powered.style.display = 'none');
-      fab && (fab.style.display = 'none');
-
-      document.title = '選擇角色 | ExpoLink';
-      return true;
-    } else {
-      hide();
-      return false;
-    }
-  }
-
-  function reset() {
-    clear();
-    location.hash = '#role';
-    guard();
-  }
+  function reset() { clear(); location.hash = '#role'; guard(); }
 
   function init() {
     bind();
-    // 若網址為 #role，也顯示角色頁並清除紀錄
-    if ((location.hash || '').replace('#', '') === 'role') {
-      clear();
-    }
+    // 若網址就是 #role，當作重選一次，清掉舊值
+    if ((location.hash || '').replace('#', '') === 'role') clear();
     guard();
   }
 
-  return { init, get, reset, guard };
+  window.Role = { init, guard, get, reset, set, clear };
 })();
-
-// 啟動
-window.addEventListener('DOMContentLoaded', () => {
-  Role.init();
-});
