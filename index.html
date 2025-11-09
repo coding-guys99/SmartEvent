@@ -580,48 +580,71 @@
 <main id="ecardPage" hidden>
   <section class="ecard-wrap">
     <!-- 3D 翻轉容器 -->
-    <div class="ec-flip" id="ecFlip">
-      <div class="ec-inner" id="ecInner">
-        <!-- 正面 -->
-        <div class="ecard-card glass ec-front" id="ecardCard">
-          <div class="ec-logo">
-            <img id="ecLogo" alt="logo" />
-            <div id="ecMonogram" class="ec-mono" aria-hidden="true"></div>
-          </div>
-          <div class="ec-qr">
-            <img id="ecQr" alt="QR code" />
-            <div id="ecQrPh" class="ec-qr-ph">QR</div>
-          </div>
-          <div class="ec-who">
-            <h2 id="ecName">—</h2>
-            <p id="ecTitle">—</p>
-            <p id="ecOrg" class="muted">—</p>
-          </div>
-          <div class="ec-contact">
-            <div class="row"><span class="i i-phone"></span><a id="ecPhone" href="#">—</a></div>
-            <div class="row"><span class="i i-mail"></span><a id="ecEmail" href="#">—</a></div>
-            <div class="row"><span class="i i-link"></span><a id="ecSite" href="#" target="_blank" rel="noopener">—</a></div>
-            <div class="row"><span class="i i-map"></span><span id="ecAddr">—</span></div>
-          </div>
+    <!-- 正面 -->
+<div class="ec-flip">
+  <div id="ecInner" class="ec-inner">
+    <section class="ec-front">
+      <article class="ecard-card ecard-compact">
+        <!-- 左上：公司 logo / 字母 -->
+        <div class="ec-logo">
+          <img id="ecLogo" alt="logo">
+          <div id="ecMonogram" class="ec-mono">E</div>
         </div>
 
-        <!-- 反面 -->
-        <div class="ecard-card glass ec-back" id="ecardBack">
-          <div class="ec-back-wrap">
-            <div class="ec-back-head">
-              <h3 id="ecBackTitle" class="gradient-text">—</h3>
-              <p id="ecBackSub" class="muted">—</p>
-            </div>
-            <ul id="ecBackBullets" class="ec-bullets"></ul>
-            <div class="ec-map" id="ecMapBox">
-              <img id="ecMapImg" alt="map"/>
-              <a id="ecMapBtn" class="btn btn-outline" target="_blank" rel="noopener"><span class="i i-map"></span> 開啟地圖</a>
-            </div>
-            <div class="ec-back-links" id="ecBackLinks"></div>
-          </div>
+        <!-- 右上：QR -->
+        <div class="ec-qr">
+          <img id="ecQr" alt="QR">
+          <div id="ecQrPh" class="ec-qr-ph">▦</div>
         </div>
-      </div>
-    </div>
+
+        <!-- 中央標題區：公司名 → 人名 -->
+        <header class="ec-head">
+          <div id="ecOrg"   class="org">ExpoLink</div>
+          <h2   id="ecName"  class="name">Andy Lin</h2>
+        </header>
+
+        <!-- 連絡資訊（依序：電話、地址、Email） -->
+        <section class="ec-contact ec-contact--onecol">
+          <div class="row">
+            <span class="i i-phone"></span>
+            <a id="ecPhone" href="tel:+886912345678">+886-912-345-678</a>
+          </div>
+          <div class="row">
+            <span class="i i-map"></span>
+            <span id="ecAddr">台北市信義區市府路45號</span>
+          </div>
+          <div class="row">
+            <span class="i i-mail"></span>
+            <a id="ecEmail" href="mailto:andy@expolink.app">andy@expolink.app</a>
+          </div>
+        </section>
+      </article>
+    </section>
+
+    <!-- 背面：公司簡介 -->
+    <section class="ec-back">
+      <article class="ecard-card ecard-compact">
+        <div class="ec-back-wrap">
+          <header class="ec-back-head">
+            <h3 id="ecBackTitle">關於我們</h3>
+            <p  id="ecBackSub" class="muted">Company Bio</p>
+          </header>
+          <ul id="ecBackBullets" class="ec-bullets">
+            <li>提供展會 SaaS 解決方案</li>
+            <li>票務 / 入場 / 名片交換一站整合</li>
+          </ul>
+
+          <!-- 可選：地圖與連結（保留你的 id，日後可用） -->
+          <div id="ecMapBox" class="ec-map">
+            <img id="ecMapImg" alt="map">
+            <a id="ecMapBtn" class="btn btn-outline btn-sm" target="_blank" rel="noopener">開啟地圖</a>
+          </div>
+          <div id="ecBackLinks" class="ec-back-links"></div>
+        </div>
+      </article>
+    </section>
+  </div>
+</div>
 
     <!-- 卡下方操作 -->
     <div class="ecard-ops">
