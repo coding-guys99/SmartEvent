@@ -1,80 +1,260 @@
-/* ==============================
-   Account (#accountPage)
-   ============================== */
-#accountPage .acct-sec{max-width:980px;margin:10px auto 28px;padding:0 12px;display:grid;gap:12px}
-#accountPage .acct-hero{display:grid;gap:10px;padding:14px;border:1px solid var(--line);border-radius:14px}
-#accountPage .ah-left{display:flex;gap:12px;align-items:center}
-#accountPage .ah-avatar{width:52px;height:52px;border-radius:50%;border:1px solid var(--line);
-  background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,.03))}
-#accountPage .ah-name{font-weight:800}
-#accountPage .ah-right{margin-left:auto;display:flex;align-items:center}
-#accountPage .ah-progress{display:grid;gap:6px}
-#accountPage .ah-progress .bar{height:8px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;border:1px solid var(--line)}
-#accountPage .ah-progress .bar span{display:block;height:100%; background:linear-gradient(90deg,var(--primary-2),var(--primary))}
-#accountPage .acct-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-@media (max-width:900px){#accountPage .acct-grid{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:560px){#accountPage .acct-grid{grid-template-columns:1fr}}
+/* ============================
+   Account Page (scoped)
+   只影響 #accountPage 範圍
+   ============================ */
 
-#accountPage .feature-card{position:relative;display:grid;gap:6px;padding:12px;border:1px solid var(--line);border-radius:14px;
-  text-decoration:none;color:var(--txt);transition:transform .12s ease,border-color .12s}
-#accountPage .feature-card:hover{transform:translateY(-1px);border-color:var(--primary)}
-#accountPage .fc-ico{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;
-  background:rgba(255,255,255,.06);border:1px solid var(--line)}
-#accountPage .fc-title{font-weight:800}
-#accountPage .fc-badge{position:absolute;right:10px;top:10px;font-size:.8rem;color:#08101d;padding:2px 8px;border-radius:999px;
-  background:linear-gradient(90deg,var(--primary-2),var(--primary))}
+/* 變數：若全域已定義，這裡不會覆蓋 */
+#accountPage{
+  --ap-bg: var(--bg, #0b0f1a);
+  --ap-card: var(--card, #11182a);
+  --ap-glass: var(--glass, rgba(255,255,255,.06));
+  --ap-line: var(--line, rgba(255,255,255,.12));
+  --ap-txt: var(--txt, #e6ebff);
+  --ap-muted: var(--muted, #9fb0d1);
+  --ap-primary: var(--primary, #00ffe0);
+  --ap-primary2: var(--primary-2, #7b61ff);
+  --ap-danger: var(--danger, #ff5c7a);
+  --ap-shadow: var(--shadow, 0 10px 30px rgba(0,0,0,.35));
+}
 
-/* 子頁 */
-#accountPage .subpage{max-width:980px;margin:10px auto 80px;padding:0 12px}
-#accountPage .sub-head{position:sticky;top:56px;z-index:5;display:flex;align-items:center;gap:10px;
-  padding:10px;background:rgba(11,15,26,.6);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);border-radius:12px}
-#accountPage .sub-head h3{display:flex;align-items:center;gap:8px;margin:0}
-#accountPage .sub-body{display:grid;gap:12px;margin-top:10px}
-#accountPage .sub-card{padding:12px;border:1px solid var(--line);border-radius:14px}
-#accountPage .sub-card.danger{border-color:rgba(255,92,122,.45)}
-#accountPage .sub-card h4{margin:.2rem 0 .4rem}
-#accountPage .sheet-cta{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;gap:10px;justify-content:center;
+/* 共用：玻璃卡 + 小動畫 */
+#accountPage .glass{
+  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.03));
+  border:1px solid var(--ap-line);
+  border-radius:14px;
+  box-shadow: var(--ap-shadow);
+}
+
+/* 頁面容器 */
+#accountPage .acct-sec{
+  max-width:980px;
+  margin:14px auto 88px;
+  padding:0 12px;
+  display:grid;
+  gap:12px;
+}
+
+/* ----- 頭像卡／總覽 ----- */
+#accountPage .acct-hero{
+  display:grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "left right"
+    "progress progress";
+  align-items:center;
+  gap:12px;
+  padding:14px;
+  position:relative;
+  overflow:hidden;
+}
+#accountPage .acct-hero::after{
+  content:""; position:absolute; inset:-20% -10% auto -10%; height:140%;
+  background: radial-gradient(60% 60% at 0% 0%, rgba(0,255,224,.08), transparent 60%),
+              radial-gradient(60% 60% at 100% 0%, rgba(123,97,255,.10), transparent 60%);
+  pointer-events:none;
+}
+#accountPage .ah-left{ grid-area:left; display:flex; gap:12px; align-items:center; }
+#accountPage .ah-right{ grid-area:right; display:flex; align-items:center; gap:8px; }
+#accountPage .ah-avatar{
+  width:56px;height:56px;border-radius:50%;
+  border:1px solid var(--ap-line);
+  background:linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.03));
+}
+#accountPage .ah-name{ font-weight:800; letter-spacing:.2px; }
+#accountPage .ah-sub{ color:var(--ap-muted); }
+#accountPage .ah-progress{ grid-area:progress; display:grid; gap:6px; }
+#accountPage .ah-progress .bar{
+  height:10px;border-radius:999px; overflow:hidden;
+  background: rgba(255,255,255,.06); border:1px solid var(--ap-line);
+}
+#accountPage .ah-progress .bar span{
+  display:block;height:100%;
+  background: linear-gradient(90deg, var(--ap-primary2), var(--ap-primary));
+  transition:width .25s ease;
+  box-shadow: 0 4px 12px rgba(0,255,224,.18) inset;
+}
+#accountPage .ah-progress .k{ color:var(--ap-muted); font-size:.92rem; }
+
+/* ----- 功能卡區 grid ----- */
+#accountPage .acct-grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:12px;
+}
+@media (max-width:900px){ #accountPage .acct-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:560px){ #accountPage .acct-grid{ grid-template-columns:1fr; } }
+
+#accountPage .feature-card{
+  position:relative; display:grid; gap:6px; padding:14px;
+  color:var(--ap-txt); text-decoration:none; border-radius:14px;
+  border:1px solid var(--ap-line); background: rgba(255,255,255,.03);
+  transition: transform .14s ease, border-color .14s ease, box-shadow .14s ease;
+}
+#accountPage .feature-card:hover{
+  transform: translateY(-1px);
+  border-color: rgba(0,255,224,.45);
+  box-shadow: 0 10px 26px rgba(0,0,0,.35), 0 0 0 1px rgba(0,255,224,.18) inset;
+}
+#accountPage .fc-ico{
+  width:42px;height:42px;border-radius:10px; display:grid; place-items:center;
+  background: rgba(255,255,255,.06); border:1px solid var(--ap-line);
+}
+#accountPage .fc-title{ font-weight:800; letter-spacing:.2px; }
+#accountPage .fc-sub{ color:var(--ap-muted); font-size:.95rem; }
+#accountPage .fc-badge{
+  position:absolute; right:10px; top:10px; font-size:.82rem;
+  color:#08101d; padding:2px 8px; border-radius:999px;
+  background: linear-gradient(90deg, var(--ap-primary2), var(--ap-primary));
+  box-shadow: 0 6px 18px rgba(0,255,224,.18);
+}
+
+/* ----- 二級頁：標題＋內容 ----- */
+#accountPage .subpage{
+  max-width:980px; margin:12px auto 88px; padding:0 12px; display:grid; gap:12px;
+}
+#accountPage .sub-head{
+  position:sticky; top:56px; z-index:5;
+  display:flex; align-items:center; gap:10px;
+  padding:10px; border-radius:12px;
+  background: rgba(11,15,26,.65); backdrop-filter: blur(10px);
+  border:1px solid var(--ap-line);
+}
+#accountPage .sub-head h3{ margin:0; display:flex; align-items:center; gap:8px; }
+
+/* 內容卡 */
+#accountPage .sub-body{ display:grid; gap:12px; }
+#accountPage .sub-card{ padding:14px; border-radius:14px; border:1px solid var(--ap-line); }
+#accountPage .sub-card h4{ margin:.2rem 0 .5rem; font-weight:800; letter-spacing:.3px; }
+#accountPage .sub-card.danger{ border-color: rgba(255,92,122,.45); }
+
+/* Sticky CTA */
+#accountPage .sheet-cta{
+  position:fixed; left:0; right:0; bottom:0; z-index:6;
+  display:flex; gap:10px; justify-content:center;
   padding:10px 12px calc(10px + env(safe-area-inset-bottom));
-  background:linear-gradient(180deg,rgba(11,15,26,.2),rgba(11,15,26,.9));border-top:1px solid var(--line);backdrop-filter:blur(8px)}
-#accountPage .sheet-cta .btn{min-width:120px}
+  background: linear-gradient(180deg, rgba(11,15,26,.2), rgba(11,15,26,.92));
+  border-top:1px solid var(--ap-line); backdrop-filter: blur(8px);
+}
+#accountPage .sheet-cta .btn{ min-width:120px; }
 
-/* grid & form */
-#accountPage .row.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media (max-width:700px){#accountPage .row.two{grid-template-columns:1fr}}
-#accountPage .avatar-row{display:flex;align-items:center;gap:12px}
-#accountPage .avatar-row .avatar{width:72px;height:72px;border-radius:50%;border:1px solid var(--line);
-  background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,.03))}
-#accountPage .avatar-actions{display:flex;gap:8px;flex-wrap:wrap}
+/* ----- 表單與網格 ----- */
+#accountPage .row.two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:700px){ #accountPage .row.two{ grid-template-columns:1fr; } }
+#accountPage .row.two.compact{ gap:8px; }
 
-#accountPage .vis-list{list-style:none;padding:0;margin:6px 0;display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
-#accountPage .vis-list label{display:flex;align-items:center;gap:8px;padding:10px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
-#accountPage .vis-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+#accountPage .field{ display:grid; gap:6px; }
+#accountPage .field span{ font-size:.92rem; color:var(--ap-muted); }
+#accountPage .field input,
+#accountPage .field textarea,
+#accountPage .field select{
+  width:100%; color:var(--ap-txt);
+  background: rgba(255,255,255,.04);
+  border:1px solid var(--ap-line);
+  border-radius:12px; padding:10px 12px; outline:none;
+}
+#accountPage .field textarea{ resize:vertical; }
+#accountPage .field input:focus,
+#accountPage .field textarea:focus,
+#accountPage .field select:focus{
+  border-color: var(--ap-primary);
+  box-shadow: 0 0 0 2px rgba(0,255,224,.15);
+}
 
-#accountPage .ecard-mini{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))}
-#accountPage .ecard-mini .name{font-weight:800;letter-spacing:.2px;background:linear-gradient(90deg,var(--primary),var(--primary-2));-webkit-background-clip:text;background-clip:text;color:transparent}
-#accountPage .ecard-mini .meta{color:var(--muted);font-size:.95rem}
+/* 切換開關（偏好設定） */
+#accountPage .toggle{
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; border-radius:12px;
+  background: rgba(255,255,255,.04); border:1px solid var(--ap-line);
+  margin:6px 0;
+}
+#accountPage .toggle input{ accent-color: var(--ap-primary); }
 
-/* QR */
-#accountPage .qr-card{display:grid;gap:10px;justify-items:center;text-align:center}
-#accountPage .qr-box{width:min(80vw,320px);aspect-ratio:1/1;border-radius:16px;display:grid;place-items:center;border:1px dashed var(--line);background:rgba(255,255,255,.03)}
-#accountPage .qr-ph{font-size:2rem;color:var(--muted)}
-#accountPage .qr-meta .k{font-size:.9rem;color:var(--muted)}
-#accountPage .qr-meta .timer{font-weight:800;margin-top:2px}
-#accountPage .qr-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-#accountPage .small{font-size:.92rem}
+/* 頭像區 */
+#accountPage .avatar-row{ display:flex; align-items:center; gap:12px; }
+#accountPage .avatar-row .avatar{
+  width:72px;height:72px;border-radius:50%; border:1px solid var(--ap-line);
+  background:linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.03));
+}
+#accountPage .avatar-actions{ display:flex; gap:8px; flex-wrap:wrap; }
 
-/* 交換名片 */
-#accountPage .ex-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-#accountPage .ex-item{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.03)}
-#accountPage .ex-avatar{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);
-  background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02))}
-#accountPage .ex-name{font-weight:700}
-#accountPage .ex-meta{font-size:.9rem}
+/* 名片公開清單 + 迷你預覽 */
+#accountPage .vis-list{
+  list-style:none; padding:0; margin:6px 0;
+  display:grid; gap:8px; grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+}
+#accountPage .vis-list label{
+  display:flex; align-items:center; gap:8px; padding:10px;
+  border-radius:12px; border:1px solid var(--ap-line);
+  background: rgba(255,255,255,.03);
+}
+#accountPage .vis-actions{ display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; }
 
-/* 綁定列 + 按鈕尺寸 */
-#accountPage .bind-row{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.03);margin-bottom:8px}
-#accountPage .bind-ico{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:rgba(255,255,255,.06);border:1px solid var(--line)}
-#accountPage .bind-title{font-weight:700}
-#accountPage .btn.btn-sm{padding:8px 10px;border-radius:10px;font-size:.92rem}
-#accountPage .btn.btn-danger{border:1px solid var(--danger);color:var(--txt);background:rgba(255,0,0,.06)}
-#accountPage .danger-line{display:flex;gap:8px;flex-wrap:wrap}
+#accountPage .ecard-mini{
+  border:1px solid var(--ap-line); border-radius:14px; padding:14px 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+}
+#accountPage .ecard-mini .name{
+  font-weight:800; letter-spacing:.2px;
+  background: linear-gradient(90deg, var(--ap-primary), var(--ap-primary2));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+#accountPage .ecard-mini .meta{ color:var(--ap-muted); font-size:.95rem; }
+
+/* QR 區 */
+#accountPage .qr-card{ display:grid; gap:10px; justify-items:center; text-align:center; }
+#accountPage .qr-box{
+  width:min(80vw,320px); aspect-ratio:1/1; border-radius:16px;
+  display:grid; place-items:center;
+  border:1px dashed var(--ap-line); background: rgba(255,255,255,.03);
+}
+#accountPage .qr-ph{ font-size:2rem; color:var(--ap-muted); }
+#accountPage .qr-meta .k{ font-size:.9rem; color:var(--ap-muted); }
+#accountPage .qr-meta .timer{ font-weight:800; margin-top:2px; }
+#accountPage .qr-actions{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+#accountPage .small{ font-size:.92rem; }
+
+/* 交換名片列表 */
+#accountPage .ex-list{ list-style:none; margin:0; padding:0; display:grid; gap:10px; }
+#accountPage .ex-item{
+  display:flex; align-items:center; gap:10px;
+  padding:10px; border:1px solid var(--ap-line);
+  border-radius:12px; background: rgba(255,255,255,.03);
+}
+#accountPage .ex-avatar{
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid var(--ap-line);
+  background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+}
+#accountPage .ex-body{ flex:1; min-width:0; }
+#accountPage .ex-name{ font-weight:700; }
+#accountPage .ex-sub{ color:var(--ap-muted); }
+#accountPage .ex-meta{ font-size:.9rem; color:var(--ap-muted); }
+#accountPage .empty{ text-align:center; }
+
+/* 綁定列 */
+#accountPage .bind-row{
+  display:flex; align-items:center; gap:10px; margin-bottom:8px;
+  padding:10px; border-radius:12px;
+  border:1px solid var(--ap-line); background: rgba(255,255,255,.03);
+}
+#accountPage .bind-ico{
+  width:36px; height:36px; border-radius:10px;
+  display:grid; place-items:center;
+  background: rgba(255,255,255,.06); border:1px solid var(--ap-line);
+}
+#accountPage .bind-title{ font-weight:700; }
+
+/* 危險操作 */
+#accountPage .btn.btn-danger{
+  border:1px solid var(--ap-danger);
+  color:var(--ap-txt);
+  background: rgba(255,0,0,.06);
+}
+
+/* 可鍵盤聚焦的元素：更清楚的 Focus Ring */
+#accountPage .feature-card:focus-visible,
+#accountPage .icon-btn:focus-visible,
+#accountPage .btn:focus-visible,
+#accountPage a:focus-visible{
+  outline:2px solid var(--ap-primary);
+  outline-offset:2px;
+  border-radius:12px;
+}
