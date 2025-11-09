@@ -1,26 +1,28 @@
 // js/ecard.js
-// ExpoLink 名片頁：對應新版版型（左上 Logo、右上 QR、公司/姓名、底部一欄三列）
+// 名片頁（對齊你的 HTML：ecOrg / ecName / ecPhone / ecAddr / ecEmail）
 
 (function () {
   function init(HOME) {
     const ec = HOME?.ecard || {};
     if (!document.getElementById('ecardPage')) return;
 
-    // -------- 左上 Logo（有圖用圖；否則用首字母 monogram） --------
+    // ---------- 左上：Logo / Monogram ----------
     const logo = byId('ecLogo');
     const mono = byId('ecMonogram');
     if (ec.logo && logo) {
       logo.src = ec.logo;
       logo.style.display = 'block';
       mono && (mono.style.display = 'none');
-    } else if (mono) {
-      const t = (ec.org || ec.name || 'E').trim().charAt(0).toUpperCase() || 'E';
-      mono.textContent = t;
-      mono.style.display = 'grid';
+    } else {
+      if (mono) {
+        const t = (ec.org || ec.name || 'E').trim().charAt(0).toUpperCase() || 'E';
+        mono.textContent = t;
+        mono.style.display = 'grid';
+      }
       logo && (logo.style.display = 'none');
     }
 
-    // -------- 右上 QR --------
+    // ---------- 右上：QR ----------
     const qr = byId('ecQr');
     const qrPh = byId('ecQrPh');
     if (ec.qr && qr) {
@@ -32,81 +34,89 @@
       qrPh && (qrPh.style.display = 'grid');
     }
 
-    // -------- 中央：公司 + 姓名 --------
-    setText('ecOrgTop', ec.org || '');
-    setText('ecNameMain', ec.name || '');
+    // ---------- 中央：公司名 / 人名 ----------
+    setText('ecOrg', ec.org || '');
+    setText('ecName', ec.name || '');
 
-    // -------- 底部三列：電話 / 地址 / Email（空值會自動隱藏） --------
-    // 每一列的包裝元素 id：ecRowPhone / ecRowAddr / ecRowEmail
-    fillLinkRow({
-      rowId: 'ecRowPhone',
-      aId: 'ecPhone',
-      icon: 'tel',
+    // ---------- 底部三列：電話 / 地址 / Email（空值自動隱藏整列） ----------
+    fillRowLink({
+      nodeId: 'ecPhone',
       value: ec.phone,
-      href: (v) => `tel:${v}`
+      href: v => `tel:${v}`
     });
 
-    fillLinkRow({
-      rowId: 'ecRowAddr',
-      aId: 'ecAddr',
-      icon: 'map',
-      value: ec.address,
-      href: (v) => '#'   // 你要導地圖可換成 google map：`https://maps.google.com/?q=${encodeURIComponent(v)}`
+    // 地址是 <span id="ecAddr">，預設不連結；要改成開地圖可自行把 <span> 換成 <a>
+    fillRowText({
+      nodeId: 'ecAddr',
+      value: ec.address
     });
 
-    fillLinkRow({
-      rowId: 'ecRowEmail',
-      aId: 'ecEmail',
-      icon: 'mail',
+    fillRowLink({
+      nodeId: 'ecEmail',
       value: ec.email,
-      href: (v) => `mailto:${v}`
+      href: v => `mailto:${v}`
     });
 
-    // -------- vCard / 分享（沿用） --------
+    // ---------- vCard / 分享 ----------
     mountVcard(ec);
     mountShare(ec);
 
-    // -------- 翻面控制（沿用） --------
+    // ---------- 翻面控制 ----------
+    const flipWrap = document.querySelector('.ec-flip');
     const inner = byId('ecInner');
     const flipBtn = byId('ecFlipBtn');
     const flip = () => inner?.classList.toggle('is-back');
 
-    byId('ecFlip')?.addEventListener('click', (e) => {
-      const tag = (e.target.tagName || '').toLowerCase();
-      if (tag === 'a' || tag === 'button' || e.target.closest?.('.btn')) return;
+    // 點整張卡（但避開按鈕/連結）
+    flipWrap?.addEventListener('click', (e) => {
+      const t = e.target;
+      if (!t) return;
+      const tag = (t.tagName || '').toLowerCase();
+      if (tag === 'a' || tag === 'button' || t.closest?.('.btn')) return;
       flip();
     });
     flipBtn?.addEventListener('click', flip);
   }
 
-  // -------- helpers --------
+  // ===== helpers =====
   function byId(id) { return document.getElementById(id); }
   function setText(id, val) {
     const el = byId(id);
-    if (el) el.textContent = String(val ?? '');
+    if (!el) return;
+    el.textContent = String(val ?? '');
   }
 
-  // 依值填入一列；沒值則隱藏整列
-  function fillLinkRow({ rowId, aId, value, href }) {
-    const row = byId(rowId);
-    const a = byId(aId);
-    if (!row) return;
+  // <a id="..."> ；沒值就隱藏父 .row
+  function fillRowLink({ nodeId, value, href }) {
+    const a = byId(nodeId);
+    if (!a) return;
+    const row = a.closest('.row');
     const v = (value || '').trim();
     if (!v) {
-      row.style.display = 'none';
-      a && (a.textContent = '—', a.removeAttribute('href'));
+      row && (row.style.display = 'none');
+      a.removeAttribute('href');
+      a.textContent = '—';
       return;
     }
-    row.style.display = ''; // 顯示
-    if (a) {
-      a.textContent = v;
-      const link = href ? href(v) : '#';
-      if (link && link !== '#') {
-        a.href = link;
-      } else {
-        a.removeAttribute('href');
-      }
+    a.textContent = v;
+    const link = href ? href(v) : '';
+    if (link) a.href = link; else a.removeAttribute('href');
+    row && (row.style.display = '');
+  }
+
+  // <span id="..."> ；沒值就隱藏父 .row
+  function fillRowText({ nodeId, value }) {
+    const el = byId(nodeId);
+    if (!el) return;
+    const row = el.closest('.row');
+    const v = (value || '').trim();
+    if (!v) {
+      row && (row.style.display = 'none');
+      el.textContent = '—';
+      return;
     }
+    el.textContent = v;
+    row && (row.style.display = '');
   }
 
   function mountVcard(ec) {
@@ -132,7 +142,7 @@
     if (navigator.share) {
       shareBtn.disabled = false;
       shareBtn.addEventListener('click', async () => {
-        const text = `${ec.name||''}｜${ec.org||''}\n${ec.email||''}\n${ec.phone||''}`;
+        const text = `${ec.org || ''}\n${ec.name || ''}\n${ec.email || ''}\n${ec.phone || ''}`;
         try {
           await navigator.share({
             title: ec.name || '我的名片',
