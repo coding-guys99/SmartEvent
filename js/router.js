@@ -1,125 +1,120 @@
-/* ==========================================================
- * PageRouter — 控管首頁/子頁顯示（含角色頁 #role）
- * 只負責顯示/隱藏，不做資料渲染
- * ========================================================== */
+// js/router.js
+// 單一真相來源：這支負責所有區塊的顯示/隱藏（含 role）
 (function () {
-  // 取一次 DOM，避免每次 hashchange 都 query
+  // 抓一次 DOM（避免每次重撈）
   const el = {
     // 首頁模組
-    hero:        document.getElementById('hero'),
-    qa:          document.querySelector('.quick-actions'),
-    info:        document.getElementById('expoInfo'),
-    powered:     document.querySelector('.powered'),
-    fab:         document.getElementById('scanFab'),
-
-    // 你新增的「日期上方活動圖」可能使用的 id（擇一會存在）
-    activity:    document.getElementById('activityCard')
-              || document.getElementById('activityMedia')
-              || document.getElementById('activityPhoto')
-              || null,
-
+    hero:       document.getElementById('hero'),
+    qa:         document.querySelector('.quick-actions'),
+    info:       document.getElementById('expoInfo'),
+    powered:    document.querySelector('.powered'),
+    cd:         document.getElementById('cdWidget'),      // 倒數
+    activity:   document.getElementById('activityCard'),  // 你新增的活動圖片槽（若沒有也沒關係）
     // 子頁
-    ecard:       document.getElementById('ecardPage'),
-    brands:      document.getElementById('brandsPage'),
-    contact:     document.getElementById('contactPage'),
-    transport:   document.getElementById('transportPage'),
-    account:     document.getElementById('accountPage'),
-    about:       document.getElementById('aboutPage'),
-
-    // 角色
-    role:        document.getElementById('rolePage'),
+    ecard:      document.getElementById('ecardPage'),
+    brands:     document.getElementById('brandsPage'),
+    contact:    document.getElementById('contactPage'),
+    transport:  document.getElementById('transportPage'),
+    account:    document.getElementById('accountPage'),
+    about:      document.getElementById('aboutPage'),
+    role:       document.getElementById('rolePage'),
+    // 其他
+    fab:        document.getElementById('scanFab')
   };
 
   // 小工具
-  function setVisible(node, show) {
+  const setVisible = (node, show) => {
     if (!node) return;
     node.hidden = !show;
     node.setAttribute('aria-hidden', String(!show));
-  }
-  function hideHomeModules() {
-    if (el.hero)    el.hero.style.display = 'none';
-    if (el.qa)      el.qa.style.display = 'none';
-    if (el.info)    el.info.style.display = 'none';
-    if (el.powered) el.powered.style.display = 'none';
-    if (el.activity) el.activity.style.display = 'none';
-  }
-  function showHomeModules() {
-    if (el.hero)    el.hero.style.display = '';
-    if (el.qa)      el.qa.style.display = '';
-    if (el.info)    el.info.style.display = '';
-    if (el.powered) el.powered.style.display = '';
-    if (el.activity) el.activity.style.display = '';  // 只在首頁顯示
-  }
-  function offAllPages() {
-    [el.ecard, el.brands, el.contact, el.transport, el.account, el.about, el.role]
-      .forEach(n => setVisible(n, false));
-  }
+    // 兼容你有些用 style.display 的地方
+    if ('style' in node) node.style.display = show ? '' : (node.tagName === 'SECTION' || node.tagName === 'MAIN' ? '' : 'none');
+  };
 
-  // 顯示首頁
   function showHome() {
-    showHomeModules();
-    offAllPages();
-    if (el.fab) el.fab.style.display = '';     // FAB在首頁開
+    setVisible(el.hero, true);
+    if (el.qa)      el.qa.style.display = '';
+    setVisible(el.info, true);
+    setVisible(el.cd, !!el.cd);           // 有就顯示
+    setVisible(el.activity, !!el.activity);
+    setVisible(el.powered, true);
+
+    // 關掉子頁
+    ['ecard','brands','contact','transport','account','about','role']
+      .forEach(k => setVisible(el[k], false));
+
+    if (el.fab) el.fab.style.display = '';
     document.title = 'ExpoLink';
   }
 
-  // 僅顯示某頁
   function showOnly(pageEl, title) {
-    hideHomeModules();
-    if (el.fab) el.fab.style.display = 'none'; // 子頁關掉 FAB
-    setVisible(el.role, false);
-    [el.ecard, el.brands, el.contact, el.transport, el.account, el.about]
-      .forEach(n => setVisible(n, n === pageEl));
+    // 隱藏所有首頁模組（確保首頁專屬圖/倒數不會外溢）
+    if (el.hero)     el.hero.style.display = 'none';
+    if (el.qa)       el.qa.style.display = 'none';
+    setVisible(el.info, false);
+    setVisible(el.cd, false);
+    setVisible(el.activity, false);
+    setVisible(el.powered, false);
+
+    // 顯示指定頁，其餘子頁隱藏
+    ['ecard','brands','contact','transport','account','about','role'].forEach(k => {
+      setVisible(el[k], el[k] === pageEl);
+    });
+
+    if (el.fab) el.fab.style.display = 'none';
     if (title) document.title = title;
   }
 
+  function needRoleGate() {
+    // 未選身分 & 不在 #role → 導向 #role
+    try {
+      return !!(window.Role && !Role.get() && (location.hash || '') !== '#role');
+    } catch { return false; }
+  }
+
   function route() {
-    const raw = (location.hash || '').replace(/^#/, '');
-    const hash = raw || '';
+    const hash = (location.hash || '').replace('#','');
 
-    // 先把角色頁關掉（避免殘留）
-    setVisible(el.role, false);
-
-    // 1) 角色頁
-    if (hash === 'role' && el.role) {
-      hideHomeModules();
-      offAllPages();
-      if (el.fab) el.fab.style.display = 'none';
-      setVisible(el.role, true);
-      document.title = '選擇角色 | ExpoLink';
+    // 初次與每次切換，若需要 role → 導頁
+    if (needRoleGate()) {
+      location.hash = '#role';
       return;
     }
 
-    // 2) 會員中心（含子路由）
-    const isAccount = hash === 'account' || hash.startsWith('account/');
-    if (isAccount && el.account) {
+    // 明確的 #role
+    if (hash === 'role' && el.role) {
+      showOnly(el.role, '選擇角色 | ExpoLink');
+      // 確保 Role 模組把自己的面板顯示
+      window.Role?.mountIfHashIsRole?.();
+      return;
+    } else {
+      // 只要不是 #role，就把 role 隱藏
+      setVisible(el.role, false);
+    }
+
+    // 二級：account（含子路徑）
+    if ((/^account(\/|$)/).test(hash) && el.account) {
       showOnly(el.account, '會員中心 | ExpoLink');
       return;
     }
 
-    // 3) 其餘子頁
-    if (hash === 'ecard'     && el.ecard)     return showOnly(el.ecard,    '電子名片 | ExpoLink');
-    if (hash === 'brands'    && el.brands)    return showOnly(el.brands,   '參展品牌 | ExpoLink');
-    if (hash === 'contact'   && el.contact)   return showOnly(el.contact,  '聯絡主辦 | ExpoLink');
-    if (hash === 'transport' && el.transport) return showOnly(el.transport,'交通資訊 | ExpoLink');
-    if (hash === 'about'     && el.about)     return showOnly(el.about,    '關於 ExpoLink | ExpoLink');
+    if (hash === 'ecard' && el.ecard)     return showOnly(el.ecard, '電子名片 | ExpoLink');
+    if (hash === 'brands' && el.brands)   return showOnly(el.brands, '參展品牌 | ExpoLink');
+    if (hash === 'contact' && el.contact) return showOnly(el.contact, '聯絡主辦 | ExpoLink');
+    if (hash === 'transport' && el.transport) return showOnly(el.transport, '交通資訊 | ExpoLink');
+    if (hash === 'about' && el.about)     return showOnly(el.about, '關於 ExpoLink | ExpoLink');
 
-    // 4) 預設回首頁
+    // 其他 / 空 → 首頁
     showHome();
   }
 
   function bindUI() {
-    // Drawer / Scanner 若有模組就初始化（沒有就忽略）
-    if (window.Scanner && typeof window.Scanner.init === 'function') window.Scanner.init();
-    if (window.Drawer  && typeof window.Drawer.init  === 'function') window.Drawer.init();
-
+    // Drawer & Scanner 若你另外初始化，這裡只負責監聽 hash
     window.addEventListener('hashchange', () => {
       route();
-      // 每次切頁回到頂端
-      window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+      window.scrollTo({ top: 0, behavior: 'auto' });
     });
   }
 
-  // 對外
-  window.PageRouter = { route, bindUI };
+  window.PageRouter = { bindUI, route };
 })();
