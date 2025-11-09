@@ -1,67 +1,77 @@
-/* ==========================================================
- * Role — 角色選擇（Visitor / Exhibitor）
- * 規則：
- *  - 未選角色 → 自動導到 #role，由 router 控畫面
- *  - 點選角色 → 存 localStorage 並回首頁
- * ========================================================== */
+// js/role.js
+// ExpoLink Role module — 只負責 role 的存取與選擇
 (function () {
   const KEY = 'expo.role'; // 'visitor' | 'exhibitor'
 
-  function get()  { return localStorage.getItem(KEY) || ''; }
-  function set(v) { localStorage.setItem(KEY, v); }
-  function clear(){ localStorage.removeItem(KEY); }
+  const el = {
+    page: document.getElementById('rolePage'),
+    cards: null,
+    skip: null
+  };
+
+  function get() {
+    return localStorage.getItem(KEY) || '';
+  }
+  function set(v) {
+    localStorage.setItem(KEY, v);
+  }
+  function clear() {
+    localStorage.removeItem(KEY);
+  }
 
   function show() {
-    const p = document.getElementById('rolePage');
-    p?.removeAttribute('hidden');
-    p?.setAttribute('aria-hidden', 'false');
+    el.page?.removeAttribute('hidden');
+    el.page?.setAttribute('aria-hidden', 'false');
   }
   function hide() {
-    const p = document.getElementById('rolePage');
-    p?.setAttribute('hidden', 'true');
-    p?.setAttribute('aria-hidden', 'true');
+    el.page?.setAttribute('hidden', 'true');
+    el.page?.setAttribute('aria-hidden', 'true');
   }
 
   function go(role) {
-    if (!role) return;
     set(role);
-    hide();                 // 先關掉畫面避免殘影
-    location.hash = '';     // 回首頁，讓 router 負責顯示
-    document.title = 'ExpoLink';
-  }
-
-  // 首次守門：無角色 → 導到 #role
-  function guard() {
-    const has = !!get();
-    if (!has) {
-      if ((location.hash || '') !== '#role') {
-        location.hash = '#role'; // 交給 router 顯示
-      } else {
-        show();
-      }
+    // 交給 Router，這裡不做顯示/隱藏
+    if (role === 'visitor') {
+      location.hash = '';       // 回首頁
     } else {
-      hide();
+      location.hash = '#account';
     }
-    return !has;
   }
 
   function bind() {
-    const page = document.getElementById('rolePage');
-    page?.querySelectorAll('.role-card').forEach(btn => {
-      btn.addEventListener('click', () => go(btn.getAttribute('data-role')));
+    el.cards = el.page?.querySelectorAll('.role-card');
+    el.skip  = document.getElementById('roleSkip');
+
+    el.cards?.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const role = btn.getAttribute('data-role');
+        go(role);
+      });
     });
-    const skip = document.getElementById('roleSkip');
-    skip?.addEventListener('click', (e) => { e.preventDefault(); go('visitor'); });
+
+    el.skip?.addEventListener('click', (e) => {
+      e.preventDefault();
+      go('visitor');
+    });
   }
 
-  function reset() { clear(); location.hash = '#role'; guard(); }
+  // Router 會呼叫：當 hash === 'role' 時顯示，否則隱藏
+  function mountIfHashIsRole() {
+    if ((location.hash || '').replace('#','') === 'role') {
+      show();
+      return true;
+    }
+    hide();
+    return false;
+  }
 
   function init() {
     bind();
-    // 若網址就是 #role，當作重選一次，清掉舊值
-    if ((location.hash || '').replace('#', '') === 'role') clear();
-    guard();
+    // 若網址為 #role → 清除舊記錄，好讓使用者能重選
+    if ((location.hash || '').replace('#','') === 'role') {
+      clear();
+    }
   }
 
-  window.Role = { init, guard, get, reset, set, clear };
+  window.Role = { init, get, clear, show, hide, mountIfHashIsRole };
 })();
