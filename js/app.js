@@ -1,26 +1,28 @@
-// 載 JSON → 初始化各模組 → 綁 UI → 路由一次
+
 (async function () {
-  try{
-    const res = await fetch('data/home.json');
-    window.HOME = await res.json();
-  }catch(e){
-    console.error('無法載入 data/home.json', e);
-    window.HOME = {};
+  // 讀資料
+  let HOME = {};
+  try {
+    HOME = await fetch('data/home.json').then(r => r.json());
+  } catch(e) { console.warn('home.json 載入失敗', e); }
+
+  // 初始化需要資料的模組
+  if (window.Home)      Home.init(HOME);
+  if (window.Ecard)     Ecard.init(HOME);
+  if (window.Brands)    Brands.init(HOME);
+  if (window.Contact)   Contact.init(HOME);
+  if (window.Transport) Transport.init(HOME);
+  if (window.AccountUI) AccountUI.init?.();
+
+  // 先讓 Role 做首度守門（可能導到 #role）
+  if (window.Role) Role.init();
+
+  // 綁定 Drawer/Scanner（可選，router 也會防呆）
+  if (window.Scanner?.init) Scanner.init();
+
+  // 啟動路由
+  if (window.PageRouter) {
+    PageRouter.bindUI();
+    PageRouter.route();
   }
-
-  // 首頁與各模組初始化
-  Home.init(HOME);
-  Ecard.init(HOME);
-  Brands.init(HOME);
-  Contact.init(HOME);
-  Transport.init(HOME);
-
-  // ← 你是 account.js，所以要找 Account
-  if (window.Account && typeof Account.init === 'function') {
-    Account.init();
-  }
-
-  // Drawer / Scanner 綁定 & 首次路由
-  PageRouter.bindUI();
-  PageRouter.route();
 })();
